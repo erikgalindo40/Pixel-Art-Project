@@ -1,0 +1,157 @@
+html {
+  background-color: rgb(63, 63, 63);
+}
+
+body {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* GRID STYLES */
+.grid-container {
+  box-sizing: border-box;
+  aspect-ratio: 1/1;
+  /* try CLAMP */
+  min-width: 50vw;
+  min-height: 50vh;
+  max-width: 90vw;
+  max-height: 90vh;
+
+  margin-bottom: 1em;
+}
+
+.grid-container ul {
+  box-sizing: border-box;
+  border: 0.3rem solid #000;
+  background: black;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  gap: 0.2em;
+}
+
+.grid-container li {
+  background: white;
+  width: auto;
+  height: auto;
+  min-width: 8px;
+  min-height: 8px;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+/* TOOL PICKER / INPUT BUTTON STYLES*/
+.tools-wrapper {
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.color-picker {
+  margin-top: 0.5em;
+  min-width: 2rem;
+  min-height: 3rem;
+  margin-right: 1rem;
+}
+
+.input-buttons {
+  font-size: medium;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  margin-top: 0.5em;
+  max-height: 5vh;
+  border: 1px solid;
+}
+
+.input-buttons:nth-child(2):hover {
+  background: grey;
+  color: white;
+  border: 1px solid white;
+}
+
+.input-buttons:nth-child(3) {
+  max-width: 3rem;
+  box-sizing: border-box;
+  border-left: 1px solid black;
+}
+
+.input-buttons:nth-child(4) {
+  margin-left: 2em;
+  max-width: auto;
+}
+
+.input-buttons:nth-child(4):hover {
+  background: grey;
+  color: white;
+  border: 1px solid white;
+}
+
+/* DISPLAY QUESTION STYLES */
+.are-you-sure-question-container {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 10;
+  padding: .5em;
+
+  background-color: white;
+  border: 2px solid rgb(7, 30, 141);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  font-size: larger;
+  font-weight: lighter;
+}
+
+.question-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.2em;
+}
+
+.question-button {
+  border: 2px solid rgb(0, 0, 0);
+  font-size: medium;
+  padding: 0.5em;
+  padding-inline: 2em;
+}
+
+.question-button:hover {
+  background-color: rgb(108, 172, 228);
+  border: 2px solid rgb(7, 30, 141);
+}
+
+.hide.body::before {
+  position: absolute;
+  z-index: 0;
+  display: block;
+  content: " ";
+  width: 110vw;
+  height: 1500vh;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background: rgb(0, 0, 0);
+  opacity: .7;
+}
+
+.hide.are-you-sure-question-container {
+  display: none;
+}
