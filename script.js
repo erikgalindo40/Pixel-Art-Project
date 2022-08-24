@@ -7,22 +7,43 @@ const yesAnswerButton = document.getElementById('yesAnswerButton')
 const noAnswerButton = document.getElementById('noAnswerButton')
 const questionContainer = document.getElementById('questionContainer')
 const clearGridButton = document.getElementById('clearGridButton')
+const penSizeSlider = document.getElementById('penSizeSlider')
+let penSizeValue = document.getElementById('penSizeValue')
 let currentColor = '#18AFA5'
 let isDrawing = false
 let isDrawnOn = false
 let isGrid = false
+let currentGridDimensions = 0
+
+// Work In Progress
+penSizeValue.innerText = penSizeSlider.value
+penSizeSlider.addEventListener('input' ,()=> {
+    penSizeValue.innerText=penSizeSlider.value
+    console.log(penSizeValue.innerText)
+})
 
 function startDrawing() { //stored in installEventListeners
     if(this.dataset.nocolor == 'nocolor') { 
+        isDrawing=true 
+    } else if (penSizeValue.innerText==2) {
+        console.log('pen = 2')
+        this.style.background = currentColor
+        let listItems = document.getElementsByTagName('li')
+        let arr = Array.from(listItems)
+        let test = arr.indexOf(this)
+        arr[test-1].style.background = currentColor
+        arr[test-currentGridDimensions].style.background = currentColor
+        arr[test-currentGridDimensions-1].style.background = currentColor
         isDrawing=true
     } else {
         this.style.background = currentColor
-        isDrawing = true}
+        isDrawing = true
+    }
 }
 
 function continueDrawing() { //stored in installEventListeners
     if (isDrawing) {
-        this.style.background = currentColor
+       this.style.background = currentColor
     }
 }
 
@@ -45,6 +66,10 @@ function installEventListeners() { //stored in createGridSize
         item.addEventListener('mouseup', stopDrawing)
     }
     installGridEventListeners()
+    penSizeSlider.addEventListener('input' ,()=> {
+        penSizeValue.innerText=penSizeSlider.value
+        console.log('woorkimg')
+    })
 }
 
 function toggleQuestionDisplay() {
@@ -58,7 +83,8 @@ function createGridSize() {
         toggleQuestionDisplay()
     } else {
     let gridSizeUserInput = gridSizeDefiner.value
-    if (gridSizeUserInput > 0 && gridSizeUserInput <= 75) {
+    currentGridDimensions = gridSizeDefiner.value
+    if (gridSizeUserInput > 0 && gridSizeUserInput <= 70) {
         if (grid.innerHTML != '') {grid.innerText=''} //clears current grid
         let gridUnit = document.createElement('li')
         let i=0

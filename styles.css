@@ -16,10 +16,10 @@ body {
   /* try CLAMP */
   min-width: 50vw;
   min-height: 50vh;
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 87vw;
+  max-height: 87vh;
 
-  margin-bottom: 1em;
+  margin-bottom: .5em;
 }
 
 .grid-container ul {
@@ -53,6 +53,7 @@ body {
 /* TOOL PICKER / INPUT BUTTON STYLES*/
 .tools-wrapper {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   vertical-align: middle;
 }
@@ -94,6 +95,31 @@ body {
   background: grey;
   color: white;
   border: 1px solid white;
+}
+
+.pen-size-info {
+  margin: 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider {
+  appearance: none;
+  height: 3px;
+  background-color: white;
+}
+
+.slider-value {
+  font-size: larger;
+  box-sizing: border-box;
+  border: 1px solid white;
+  padding: .2rem;
+  max-width: fit-content;
+  background: black;
+  color: white;
 }
 
 /* DISPLAY QUESTION STYLES */
