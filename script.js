@@ -20,14 +20,11 @@ let listItems = []
 penSizeValue.innerText = penSizeSlider.value
 penSizeSlider.addEventListener('input' ,()=> {
     penSizeValue.innerText=penSizeSlider.value
-    console.log(penSizeValue.innerText)
 })
 
 function testDrawBig(cell) {
     let arr = Array.from(listItems)
-    console.log(arr)
     let test = arr.indexOf(cell)
-    console.log(test)
     arr[test-1].style.background = currentColor
     arr[test-currentGridDimensions].style.background = currentColor
     arr[test-currentGridDimensions-1].style.background = currentColor
@@ -76,7 +73,6 @@ function installEventListeners() { //stored in createGridSize
     installGridEventListeners()
     penSizeSlider.addEventListener('input' ,()=> {
         penSizeValue.innerText=penSizeSlider.value
-        console.log('woorkimg')
     })
 }
 
