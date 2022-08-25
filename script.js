@@ -14,6 +14,7 @@ let isDrawing = false
 let isDrawnOn = false
 let isGrid = false
 let currentGridDimensions = 0
+let listItems = []
 
 // Work In Progress
 penSizeValue.innerText = penSizeSlider.value
@@ -22,18 +23,22 @@ penSizeSlider.addEventListener('input' ,()=> {
     console.log(penSizeValue.innerText)
 })
 
+function testDrawBig(cell) {
+    let arr = Array.from(listItems)
+    console.log(arr)
+    let test = arr.indexOf(cell)
+    console.log(test)
+    arr[test-1].style.background = currentColor
+    arr[test-currentGridDimensions].style.background = currentColor
+    arr[test-currentGridDimensions-1].style.background = currentColor
+}
+
 function startDrawing() { //stored in installEventListeners
     if(this.dataset.nocolor == 'nocolor') { 
         isDrawing=true 
     } else if (penSizeValue.innerText==2) {
-        console.log('pen = 2')
         this.style.background = currentColor
-        let listItems = document.getElementsByTagName('li')
-        let arr = Array.from(listItems)
-        let test = arr.indexOf(this)
-        arr[test-1].style.background = currentColor
-        arr[test-currentGridDimensions].style.background = currentColor
-        arr[test-currentGridDimensions-1].style.background = currentColor
+        testDrawBig(this)
         isDrawing=true
     } else {
         this.style.background = currentColor
@@ -44,6 +49,9 @@ function startDrawing() { //stored in installEventListeners
 function continueDrawing() { //stored in installEventListeners
     if (isDrawing) {
        this.style.background = currentColor
+       if (penSizeValue.innerText==2) {
+        testDrawBig(this)
+       }
     }
 }
 
@@ -59,7 +67,7 @@ function installGridEventListeners() { //stored in installEventListeners
 }
 
 function installEventListeners() { //stored in createGridSize
-    let listItems = document.getElementsByTagName('li')
+    listItems = document.getElementsByTagName('li')
     for (let item of listItems) {
         item.addEventListener('mousedown', startDrawing)
         item.addEventListener('mouseover', continueDrawing)
