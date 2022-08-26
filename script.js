@@ -7,8 +7,8 @@ const yesAnswerButton = document.getElementById('yesAnswerButton')
 const noAnswerButton = document.getElementById('noAnswerButton')
 const questionContainer = document.getElementById('questionContainer')
 const clearGridButton = document.getElementById('clearGridButton')
-const penSizeSlider = document.getElementById('penSizeSlider')
-let penSizeValue = document.getElementById('penSizeValue')
+const pixelSizeSlider = document.getElementById('pixelSizeSlider')
+let pixelSizeValue = document.getElementById('pixelSizeValue')
 let currentColor = '#18AFA5'
 let isDrawing = false
 let isDrawnOn = false
@@ -17,9 +17,9 @@ let currentGridDimensions = 0
 let listItems = []
 
 // Work In Progress
-penSizeValue.innerText = penSizeSlider.value
-penSizeSlider.addEventListener('input' ,()=> {
-    penSizeValue.innerText=penSizeSlider.value
+pixelSizeValue.innerText = pixelSizeSlider.value
+pixelSizeSlider.addEventListener('input' ,()=> {
+    pixelSizeValue.innerText=pixelSizeSlider.value
 })
 
 function testDrawBig(cell) {
@@ -33,7 +33,7 @@ function testDrawBig(cell) {
 function startDrawing() { //stored in installEventListeners
     if(this.dataset.nocolor == 'nocolor') { 
         isDrawing=true 
-    } else if (penSizeValue.innerText==2) {
+    } else if (pixelSizeValue.innerText==2) {
         this.style.background = currentColor
         testDrawBig(this)
         isDrawing=true
@@ -46,7 +46,7 @@ function startDrawing() { //stored in installEventListeners
 function continueDrawing() { //stored in installEventListeners
     if (isDrawing) {
        this.style.background = currentColor
-       if (penSizeValue.innerText==2) {
+       if (pixelSizeValue.innerText==2) {
         testDrawBig(this)
        }
     }
@@ -71,8 +71,8 @@ function installEventListeners() { //stored in createGridSize
         item.addEventListener('mouseup', stopDrawing)
     }
     installGridEventListeners()
-    penSizeSlider.addEventListener('input' ,()=> {
-        penSizeValue.innerText=penSizeSlider.value
+    pixelSizeSlider.addEventListener('input' ,()=> {
+        pixelSizeValue.innerText=pixelSizeSlider.value
     })
 }
 
