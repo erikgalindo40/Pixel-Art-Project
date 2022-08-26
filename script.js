@@ -14,40 +14,39 @@ let isDrawing = false
 let isDrawnOn = false
 let isGrid = false
 let currentGridDimensions = 0
-let listItems = []
-pixelSizeValue.innerText = pixelSizeSlider.value
+let gridCells = []
 
 function drawBiggerPixelValue(cell) {
-    let arr = Array.from(listItems)
-    let test = arr.indexOf(cell)
-    arr[test-1].style.background = currentColor
-    arr[test-currentGridDimensions].style.background = currentColor
-    arr[test-currentGridDimensions-1].style.background = currentColor
+    let gridArray = Array.from(gridCells)
+    let currentCell = gridArray.indexOf(cell)
+    gridArray[currentCell-1].style.background = currentColor
+    gridArray[currentCell-currentGridDimensions].style.background = currentColor
+    gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
 }
 
 function drawPixelValueThree(cell) {
-    let arr = Array.from(listItems)
-    let test = arr.indexOf(cell)
-    arr[test-1].style.background = currentColor
-    arr[test-currentGridDimensions].style.background = currentColor
-    arr[test-currentGridDimensions-1].style.background = currentColor
+    let gridArray = Array.from(gridCells)
+    let currentCell = gridArray.indexOf(cell)
+    gridArray[currentCell-1].style.background = currentColor
+    gridArray[currentCell-currentGridDimensions].style.background = currentColor
+    gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
 
-    arr[test-2].style.background = currentColor
-    arr[test-currentGridDimensions-2].style.background = currentColor
+    gridArray[currentCell-2].style.background = currentColor
+    gridArray[currentCell-currentGridDimensions-2].style.background = currentColor
 
-    arr[test-(currentGridDimensions*2)].style.background = currentColor
-    arr[test-(currentGridDimensions*2)-1].style.background = currentColor
-    arr[test-(currentGridDimensions*2)-2].style.background = currentColor
+    gridArray[currentCell-(currentGridDimensions*2)].style.background = currentColor
+    gridArray[currentCell-(currentGridDimensions*2)-1].style.background = currentColor
+    gridArray[currentCell-(currentGridDimensions*2)-2].style.background = currentColor
 }
 
 function startDrawing() { //stored in installEventListeners
     if(this.dataset.nocolor == 'nocolor') { 
         isDrawing=true 
-    } else if (pixelSizeValue.innerText==2) {
+    } else if (pixelSizeSlider.value==2) {
         this.style.background = currentColor
         drawBiggerPixelValue(this)
         isDrawing=true
-    } else if (pixelSizeValue.innerText==3) {
+    } else if (pixelSizeSlider.value==3) {
         this.style.background = currentColor
         drawPixelValueThree(this)
         isDrawing = true
@@ -60,10 +59,10 @@ function startDrawing() { //stored in installEventListeners
 function continueDrawing() { //stored in installEventListeners
     if (isDrawing) {
        this.style.background = currentColor
-       if (pixelSizeValue.innerText==2) {
+       if (pixelSizeSlider.value==2) {
         drawBiggerPixelValue(this)
        }
-       if (pixelSizeValue.innerText==3) {
+       if (pixelSizeSlider.value==3) {
         drawPixelValueThree(this)
        }
     }
@@ -81,16 +80,13 @@ function installGridEventListeners() { //stored in installEventListeners
 }
 
 function installEventListeners() { //stored in createGridSize
-    listItems = document.getElementsByTagName('li')
-    for (let item of listItems) {
+    gridCells = document.getElementsByTagName('li')
+    for (let item of gridCells) {
         item.addEventListener('mousedown', startDrawing)
         item.addEventListener('mouseover', continueDrawing)
         item.addEventListener('mouseup', stopDrawing)
     }
     installGridEventListeners()
-    pixelSizeSlider.addEventListener('input' ,()=> {
-        pixelSizeValue.innerText=pixelSizeSlider.value
-    })
 }
 
 function toggleQuestionDisplay() {
@@ -108,11 +104,11 @@ function createGridSize() {
         if (gridDimensionsMet) {
         currentGridDimensions = gridSizeDefiner.value
         if (grid.innerHTML != '') {grid.innerText=''} //clears current grid
-        let gridUnit = document.createElement('li')
+        let gridCell = document.createElement('li')
         let i=0
         grid.style.gridTemplateColumns = `repeat(${gridSizeUserInput},auto)`
         while (i < Math.pow(gridSizeUserInput, 2)) {
-            grid.appendChild(gridUnit.cloneNode())
+            grid.appendChild(gridCell.cloneNode())
             i++
         }
         installEventListeners()
@@ -124,7 +120,6 @@ function createGridSize() {
 pixelSizeSlider.addEventListener('input' ,()=> {
     pixelSizeValue.innerText=pixelSizeSlider.value
 })
-
 clearGridButton.addEventListener('click', ()=>{
     if (isGrid && isDrawnOn) {
         toggleQuestionDisplay()
