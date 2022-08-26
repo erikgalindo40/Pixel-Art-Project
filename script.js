@@ -25,6 +25,21 @@ function drawBiggerPixelValue(cell) {
     arr[test-currentGridDimensions-1].style.background = currentColor
 }
 
+function drawPixelValueThree(cell) {
+    let arr = Array.from(listItems)
+    let test = arr.indexOf(cell)
+    arr[test-1].style.background = currentColor
+    arr[test-currentGridDimensions].style.background = currentColor
+    arr[test-currentGridDimensions-1].style.background = currentColor
+
+    arr[test-2].style.background = currentColor
+    arr[test-currentGridDimensions-2].style.background = currentColor
+
+    arr[test-(currentGridDimensions*2)].style.background = currentColor
+    arr[test-(currentGridDimensions*2)-1].style.background = currentColor
+    arr[test-(currentGridDimensions*2)-2].style.background = currentColor
+}
+
 function startDrawing() { //stored in installEventListeners
     if(this.dataset.nocolor == 'nocolor') { 
         isDrawing=true 
@@ -32,6 +47,10 @@ function startDrawing() { //stored in installEventListeners
         this.style.background = currentColor
         drawBiggerPixelValue(this)
         isDrawing=true
+    } else if (pixelSizeValue.innerText==3) {
+        this.style.background = currentColor
+        drawPixelValueThree(this)
+        isDrawing = true
     } else {
         this.style.background = currentColor
         isDrawing = true
@@ -43,6 +62,9 @@ function continueDrawing() { //stored in installEventListeners
        this.style.background = currentColor
        if (pixelSizeValue.innerText==2) {
         drawBiggerPixelValue(this)
+       }
+       if (pixelSizeValue.innerText==3) {
+        drawPixelValueThree(this)
        }
     }
 }
@@ -83,7 +105,7 @@ function createGridSize() {
     } else {
     let gridSizeUserInput = gridSizeDefiner.value
     currentGridDimensions = gridSizeDefiner.value
-    if (gridSizeUserInput > 0 && gridSizeUserInput <= 70) {
+    if (gridSizeUserInput > 0 && gridSizeUserInput <= 55) {
         if (grid.innerHTML != '') {grid.innerText=''} //clears current grid
         let gridUnit = document.createElement('li')
         let i=0
