@@ -100,19 +100,19 @@ function toggleQuestionDisplay() {
 }
 
 function createGridSize() {
-    if (isDrawnOn) {
+    let gridSizeUserInput = gridSizeDefiner.value
+    let gridDimensionsMet = gridSizeUserInput > 0 && gridSizeUserInput <=55
+    if (gridDimensionsMet && isDrawnOn) {
         toggleQuestionDisplay()
     } else {
-    let gridSizeUserInput = gridSizeDefiner.value
-    currentGridDimensions = gridSizeDefiner.value
-    if (gridSizeUserInput > 0 && gridSizeUserInput <= 55) {
+        if (gridDimensionsMet) {
+        currentGridDimensions = gridSizeDefiner.value
         if (grid.innerHTML != '') {grid.innerText=''} //clears current grid
         let gridUnit = document.createElement('li')
         let i=0
-
         grid.style.gridTemplateColumns = `repeat(${gridSizeUserInput},auto)`
         while (i < Math.pow(gridSizeUserInput, 2)) {
-             grid.appendChild(gridUnit.cloneNode())
+            grid.appendChild(gridUnit.cloneNode())
             i++
         }
         installEventListeners()
