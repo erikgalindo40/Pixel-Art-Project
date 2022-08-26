@@ -15,14 +15,9 @@ let isDrawnOn = false
 let isGrid = false
 let currentGridDimensions = 0
 let listItems = []
-
-// Work In Progress
 pixelSizeValue.innerText = pixelSizeSlider.value
-pixelSizeSlider.addEventListener('input' ,()=> {
-    pixelSizeValue.innerText=pixelSizeSlider.value
-})
 
-function testDrawBig(cell) {
+function drawBiggerPixelValue(cell) {
     let arr = Array.from(listItems)
     let test = arr.indexOf(cell)
     arr[test-1].style.background = currentColor
@@ -35,7 +30,7 @@ function startDrawing() { //stored in installEventListeners
         isDrawing=true 
     } else if (pixelSizeValue.innerText==2) {
         this.style.background = currentColor
-        testDrawBig(this)
+        drawBiggerPixelValue(this)
         isDrawing=true
     } else {
         this.style.background = currentColor
@@ -47,7 +42,7 @@ function continueDrawing() { //stored in installEventListeners
     if (isDrawing) {
        this.style.background = currentColor
        if (pixelSizeValue.innerText==2) {
-        testDrawBig(this)
+        drawBiggerPixelValue(this)
        }
     }
 }
@@ -103,6 +98,10 @@ function createGridSize() {
     }}
     isGrid=true
 }
+
+pixelSizeSlider.addEventListener('input' ,()=> {
+    pixelSizeValue.innerText=pixelSizeSlider.value
+})
 
 clearGridButton.addEventListener('click', ()=>{
     if (isGrid && isDrawnOn) {
