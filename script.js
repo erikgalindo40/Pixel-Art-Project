@@ -8,6 +8,7 @@ const noAnswerButton = document.getElementById('noAnswerButton')
 const questionContainer = document.getElementById('questionContainer')
 const clearGridButton = document.getElementById('clearGridButton')
 const pixelSizeSlider = document.getElementById('pixelSizeSlider')
+const question = document.getElementById('question')
 let pixelSizeValue = document.getElementById('pixelSizeValue')
 let currentColor = '#18AFA5'
 let isDrawing = false
@@ -99,6 +100,7 @@ function createGridSize() {
     let gridSizeUserInput = gridSizeDefiner.value
     let gridDimensionsMet = gridSizeUserInput > 0 && gridSizeUserInput <=55
     if (gridDimensionsMet && isDrawnOn) {
+        question.innerText = 'Current grid is about to be replaced'
         toggleQuestionDisplay()
     } else {
         if (gridDimensionsMet) {
@@ -122,6 +124,7 @@ pixelSizeSlider.addEventListener('input' ,()=> {
 })
 clearGridButton.addEventListener('click', ()=>{
     if (isGrid && isDrawnOn) {
+        question.innerText = 'Current grid is about to be erased'
         toggleQuestionDisplay()
     }
 })

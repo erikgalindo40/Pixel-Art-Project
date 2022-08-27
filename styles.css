@@ -101,7 +101,8 @@ body {
   margin: .2rem;
   padding: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: .5em;
   justify-content: center;
   align-items: center;
 }
@@ -123,7 +124,7 @@ body {
 }
 
 /* DISPLAY QUESTION STYLES */
-.are-you-sure-question-container {
+.question-container {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   position: absolute;
   top: 50%;
@@ -142,6 +143,14 @@ body {
 
   font-size: larger;
   font-weight: lighter;
+}
+
+.question-container p {
+  margin: 0;
+}
+
+.question-container strong {
+  margin-bottom: 1em;
 }
 
 .question-buttons-container {
@@ -178,6 +187,6 @@ body {
   opacity: .7;
 }
 
-.hide.are-you-sure-question-container {
+.hide.question-container {
   display: none;
 }
