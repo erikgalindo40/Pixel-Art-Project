@@ -17,9 +17,14 @@ let isGrid = false
 let currentGridDimensions = 0
 let gridCells = []
 
-function drawBiggerPixelValue(cell) {
+function drawPixelValueOne(cell) {
+    cell.style.background = currentColor
+}
+
+function drawPixelValueTwo(cell) {
     let gridArray = Array.from(gridCells)
     let currentCell = gridArray.indexOf(cell)
+    cell.style.background = currentColor
     gridArray[currentCell-1].style.background = currentColor
     gridArray[currentCell-currentGridDimensions].style.background = currentColor
     gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
@@ -28,6 +33,7 @@ function drawBiggerPixelValue(cell) {
 function drawPixelValueThree(cell) {
     let gridArray = Array.from(gridCells)
     let currentCell = gridArray.indexOf(cell)
+    cell.style.background = currentColor
     gridArray[currentCell-1].style.background = currentColor
     gridArray[currentCell-currentGridDimensions].style.background = currentColor
     gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
@@ -43,29 +49,18 @@ function drawPixelValueThree(cell) {
 function startDrawing() { //stored in installEventListeners
     if(this.dataset.nocolor == 'nocolor') { 
         isDrawing=true 
-    } else if (pixelSizeSlider.value==2) {
-        this.style.background = currentColor
-        drawBiggerPixelValue(this)
-        isDrawing=true
-    } else if (pixelSizeSlider.value==3) {
-        this.style.background = currentColor
-        drawPixelValueThree(this)
-        isDrawing = true
     } else {
-        this.style.background = currentColor
-        isDrawing = true
+        if(pixelSizeSlider.value==1) {drawPixelValueOne(this); isDrawing=true}
+        if (pixelSizeSlider.value==2) {drawPixelValueTwo(this); isDrawing=true}
+        if (pixelSizeSlider.value==3) {drawPixelValueThree(this); isDrawing=true}
     }
 }
 
 function continueDrawing() { //stored in installEventListeners
     if (isDrawing) {
-       this.style.background = currentColor
-       if (pixelSizeSlider.value==2) {
-        drawBiggerPixelValue(this)
-       }
-       if (pixelSizeSlider.value==3) {
-        drawPixelValueThree(this)
-       }
+        if(pixelSizeSlider.value==1) {drawPixelValueOne(this)}
+        if (pixelSizeSlider.value==2) {drawPixelValueTwo(this)}
+        if (pixelSizeSlider.value==3) {drawPixelValueThree(this)}
     }
 }
 
@@ -98,12 +93,11 @@ function toggleQuestionDisplay() {
 
 function createGridSize() {
     let gridSizeUserInput = gridSizeDefiner.value
-    let gridDimensionsMet = gridSizeUserInput > 0 && gridSizeUserInput <=55
-    if (gridDimensionsMet && isDrawnOn) {
-        question.innerText = 'Current grid is about to be replaced'
+    let validGridDimensions = gridSizeUserInput > 0 && gridSizeUserInput <=55
+    if (validGridDimensions && isDrawnOn) {
         toggleQuestionDisplay()
     } else {
-        if (gridDimensionsMet) {
+        if (validGridDimensions) {
         currentGridDimensions = gridSizeDefiner.value
         if (grid.innerHTML != '') {grid.innerText=''} //clears current grid
         let gridCell = document.createElement('li')
