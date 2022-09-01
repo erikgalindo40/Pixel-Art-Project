@@ -95,6 +95,7 @@ function createGridSize() {
     let gridSizeUserInput = gridSizeDefiner.value
     let validGridDimensions = gridSizeUserInput > 0 && gridSizeUserInput <=55
     if (validGridDimensions && isDrawnOn) {
+        question.innerText = 'Current Grid is about to be replaced'
         toggleQuestionDisplay()
     } else {
         if (validGridDimensions) {
