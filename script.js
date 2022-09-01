@@ -16,34 +16,67 @@ let isDrawnOn = false
 let isGrid = false
 let currentGridDimensions = 0
 let gridCells = []
+let gridSizeUserInput = 0
 
 function drawPixelValueOne(cell) {
     cell.style.background = currentColor
 }
 
 function drawPixelValueTwo(cell) {
-    let gridArray = Array.from(gridCells)
-    let currentCell = gridArray.indexOf(cell)
-    cell.style.background = currentColor
-    gridArray[currentCell-1].style.background = currentColor
-    gridArray[currentCell-currentGridDimensions].style.background = currentColor
-    gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
+    if(cell.dataset.topleftcorner=='true') {
+        drawPixelValueOne(cell)
+    } else {
+        let gridArray = Array.from(gridCells)
+        let currentCell = gridArray.indexOf(cell)
+        if (cell.dataset.leftedge == 'true') {
+            drawPixelValueOne(cell)
+            gridArray[currentCell-currentGridDimensions].style.background = currentColor
+        } else if (cell.dataset.topedge=='true') {
+            drawPixelValueOne(cell)
+            gridArray[currentCell-1].style.background = currentColor
+        } else {
+            cell.style.background = currentColor
+            gridArray[currentCell-1].style.background = currentColor
+            gridArray[currentCell-currentGridDimensions].style.background = currentColor
+            gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
+        }
+    }
 }
 
 function drawPixelValueThree(cell) {
-    let gridArray = Array.from(gridCells)
-    let currentCell = gridArray.indexOf(cell)
-    cell.style.background = currentColor
-    gridArray[currentCell-1].style.background = currentColor
-    gridArray[currentCell-currentGridDimensions].style.background = currentColor
-    gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
-
-    gridArray[currentCell-2].style.background = currentColor
-    gridArray[currentCell-currentGridDimensions-2].style.background = currentColor
-
-    gridArray[currentCell-(currentGridDimensions*2)].style.background = currentColor
-    gridArray[currentCell-(currentGridDimensions*2)-1].style.background = currentColor
-    gridArray[currentCell-(currentGridDimensions*2)-2].style.background = currentColor
+    if(cell.dataset.topleftside=='true') {
+        drawPixelValueTwo(cell)
+    } else {
+        let gridArray = Array.from(gridCells)
+        let currentCell = gridArray.indexOf(cell)
+    if (cell.dataset.leftedge=='true') {
+        drawPixelValueTwo(cell)
+        gridArray[currentCell-(currentGridDimensions*2)].style.background = currentColor
+    } else if (cell.dataset.leftside=='true') {
+        drawPixelValueTwo(cell)
+        gridArray[currentCell-(currentGridDimensions*2)].style.background = currentColor
+        gridArray[currentCell-(currentGridDimensions*2)-1].style.background = currentColor
+    } else if (cell.dataset.topedge=='true') {
+        drawPixelValueTwo(cell)
+        gridArray[currentCell-2].style.background = currentColor
+    } else if (cell.dataset.topside=='true') {
+        drawPixelValueTwo(cell)
+        gridArray[currentCell-2].style.background = currentColor
+        gridArray[currentCell-currentGridDimensions-2].style.background = currentColor
+    } else {
+        cell.style.background = currentColor
+        gridArray[currentCell-1].style.background = currentColor
+        gridArray[currentCell-currentGridDimensions].style.background = currentColor
+        gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
+        
+        gridArray[currentCell-2].style.background = currentColor
+        gridArray[currentCell-currentGridDimensions-2].style.background = currentColor
+        
+        gridArray[currentCell-(currentGridDimensions*2)].style.background = currentColor
+        gridArray[currentCell-(currentGridDimensions*2)-1].style.background = currentColor
+        gridArray[currentCell-(currentGridDimensions*2)-2].style.background = currentColor
+    }
+}
 }
 
 function startDrawing() { //stored in installEventListeners
@@ -68,6 +101,25 @@ function stopDrawing() { //stored in installEventListeners
     isDrawing = false
 }
 
+function installTestAttributes() {
+    for (let i = 0; i < parseInt(gridSizeUserInput)+2; i++) {
+        if (i==0) {gridCells[i].dataset.topleftcorner='true';gridCells[i].dataset.topleftside='true'}
+        if (i==parseInt(gridSizeUserInput)+1||i==1||i==parseInt(gridSizeUserInput)) {gridCells[i].dataset.topleftside='true'}
+    }
+    for (let i = 0; i < gridCells.length; i+=parseInt(gridSizeUserInput)) {// leftmost & topmost edge 
+        gridCells[i].dataset.leftedge = 'true'
+    }
+    for (let i=0;i<parseInt(gridSizeUserInput);i++) {
+        gridCells[i].dataset.topedge = 'true'
+    }
+    for (let i = 1; i < gridCells.length; i+=parseInt(gridSizeUserInput)) {// one cell from left & top edge
+        gridCells[i].dataset.leftside = 'true'
+    }
+    for (let i=parseInt(gridSizeUserInput);i<parseInt(gridSizeUserInput)*2;i++) {
+        gridCells[i].dataset.topside = 'true'
+    }
+}
+
 function installGridEventListeners() { //stored in installEventListeners
     grid.addEventListener('click', ()=>{isDrawnOn=true})
     grid.addEventListener('mousedown', startDrawing)
@@ -83,6 +135,7 @@ function installEventListeners() { //stored in createGridSize
         item.addEventListener('mouseup', stopDrawing)
     }
     installGridEventListeners()
+    installTestAttributes()
 }
 
 function toggleQuestionDisplay() {
@@ -92,7 +145,7 @@ function toggleQuestionDisplay() {
 }
 
 function createGridSize() {
-    let gridSizeUserInput = gridSizeDefiner.value
+    gridSizeUserInput = gridSizeDefiner.value
     let validGridDimensions = gridSizeUserInput > 0 && gridSizeUserInput <=55
     if (validGridDimensions && isDrawnOn) {
         question.innerText = 'Current Grid is about to be replaced'
