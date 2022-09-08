@@ -17,7 +17,7 @@ let isGrid = false
 let currentGridDimensions = 0
 let gridCells = []
 let gridSizeUserInput = 0
-
+//on dev
 function drawPixelValueOne(cell) {
     cell.style.background = currentColor
 }
