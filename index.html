@@ -18,18 +18,25 @@
       </div>
     </div>
     <div class="grid-container">
-      <ul id="grid" data-nocolor="nocolor">
+      <ul class="grid" id="grid" data-nocolor="nocolor">
       </ul>
+      <div class="color-selectors">
+        <input oninput="currentColor = this.value" value="#18AFA5" type="color" class="color-picker" />
+        <div class="color-queue">
+          <input type="color" class="color-picker">
+          <input type="color" class="color-picker">
+          <input type="color" class="color-picker">
+        </div>
+      </div>
     </div>
     <div class="tools-wrapper">
-      <input oninput="currentColor = this.value" value="#18AFA5" type="color" class="color-picker" />
-      <input class="input-buttons" id="submitButton" type="submit" value="Create __ by __ Grid">
-      <input class="input-buttons" type="text" id="gridSizeDefiner">
-      <input class="input-buttons" id="clearGridButton" type="submit" value="Clear Grid">     
-    </div>
-    <div class="pixel-size-info">
-      <input class="slider" id="pixelSizeSlider" type="range" min="1" max="3" value="1">
-      <div class="slider-value" id="pixelSizeValue">1</div>
+      <input class="input-buttons create-grid-button" id="submitButton" type="submit" value="Create __ by __ Grid">
+      <input class="input-buttons create-grid-input" type="text" id="gridSizeDefiner">
+      <input class="input-buttons clear-grid-button" id="clearGridButton" type="submit" value="Clear Grid">     
+      <div class="pixel-size-info">
+        <input class="slider" id="pixelSizeSlider" type="range" min="1" max="3" value="1">
+        <div class="slider-value" id="pixelSizeValue">1</div>
+      </div>
     </div>
   </body>
 </html>

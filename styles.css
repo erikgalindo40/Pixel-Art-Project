@@ -2,7 +2,7 @@ html {
   background-color: rgb(63, 63, 63);
 }
 
-body {
+.body {
   position: relative;
   display: grid;
   place-items: center;
@@ -20,9 +20,10 @@ body {
   max-height: 85vh;
 
   margin-bottom: .2em;
+  position: relative;
 }
 
-.grid-container ul {
+.grid {
   box-sizing: border-box;
   border: 0.3rem solid #000;
   background: black;
@@ -74,24 +75,24 @@ body {
   border: 1px solid;
 }
 
-.input-buttons:nth-child(2):hover {
+.create-grid-button:hover {
   background: grey;
   color: white;
   border: 1px solid white;
 }
 
-.input-buttons:nth-child(3) {
-  max-width: 3rem;
+.create-grid-input {
+  max-width: 2rem;
   box-sizing: border-box;
   border-left: 1px solid black;
 }
 
-.input-buttons:nth-child(4) {
-  margin-left: 2em;
+.clear-grid-button {
+  margin-left: 1em;
   max-width: auto;
 }
 
-.input-buttons:nth-child(4):hover {
+.clear-grid-button:hover {
   background: grey;
   color: white;
   border: 1px solid white;
@@ -173,7 +174,7 @@ body {
 
 .hide.body::before {
   position: absolute;
-  z-index: 0;
+  z-index: 10;
   display: block;
   content: " ";
   width: 110vw;
@@ -189,4 +190,33 @@ body {
 
 .hide.question-container {
   display: none;
+}
+
+/*COLOR SELECTORS*/
+.color-selectors {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: -4.5em;
+  top: 20%;
+}
+
+.color-selectors input {
+  margin-bottom: 1em;
+}
+
+.color-queue {
+  display: flex;
+  flex-direction: column;
+}
+
+.color-queue input:nth-child(1)::before {
+  content: "";
+  width: 75%;
+  height: 3px;
+  background-color: black;
+  display: inline-block;
+  position: absolute;
+  top: 23%;
+  left: 0;
 }
