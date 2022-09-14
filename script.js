@@ -2,7 +2,6 @@ const body = document.getElementById('body')
 const grid = document.getElementById('grid')
 const gridSizeDefiner = document.getElementById('gridSizeDefiner')
 const submitButton = document.getElementById('submitButton')
-const initButton = document.getElementById('initButton')
 const yesAnswerButton = document.getElementById('yesAnswerButton')
 const noAnswerButton = document.getElementById('noAnswerButton')
 const questionContainer = document.getElementById('questionContainer')
@@ -174,6 +173,7 @@ clearGridButton.addEventListener('click', ()=>{
     if (isGrid && isDrawnOn) {
         question.innerText = 'Current grid is about to be erased'
         toggleQuestionDisplay()
+        noAnswerButton.focus()
     }
 })
 yesAnswerButton.addEventListener('click',()=>{
@@ -182,4 +182,11 @@ yesAnswerButton.addEventListener('click',()=>{
         toggleQuestionDisplay()
 })
 noAnswerButton.addEventListener('click', toggleQuestionDisplay)
-submitButton.addEventListener('click', createGridSize)
+submitButton.addEventListener('click', ()=>{
+    createGridSize()
+    noAnswerButton.focus()
+})
+gridSizeDefiner.addEventListener('keypress', (e)=>{
+    if (e.key == 'Enter') createGridSize();
+    noAnswerButton.focus()
+})

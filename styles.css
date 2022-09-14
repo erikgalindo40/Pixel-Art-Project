@@ -75,7 +75,7 @@ html {
   border: 1px solid;
 }
 
-.create-grid-button:hover {
+.create-grid-button:hover, .create-grid-button:focus {
   background: grey;
   color: white;
   border: 1px solid white;
@@ -92,7 +92,7 @@ html {
   max-width: auto;
 }
 
-.clear-grid-button:hover {
+.clear-grid-button:hover, .clear-grid-button:focus {
   background: grey;
   color: white;
   border: 1px solid white;
@@ -167,7 +167,7 @@ html {
   padding-inline: 2em;
 }
 
-.question-button:hover {
+.question-button:hover, .question-button:focus {
   background-color: rgb(108, 172, 228);
   border: 2px solid rgb(7, 30, 141);
 }
