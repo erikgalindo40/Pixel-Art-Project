@@ -8,7 +8,9 @@ const questionContainer = document.getElementById('questionContainer')
 const clearGridButton = document.getElementById('clearGridButton')
 const pixelSizeSlider = document.getElementById('pixelSizeSlider')
 const question = document.getElementById('question')
-let pixelSizeValue = document.getElementById('pixelSizeValue')
+const pixelSizeValue = document.getElementById('pixelSizeValue')
+const mainColor = document.getElementById('mainColor')
+const palette = Array.from(document.querySelectorAll('#paletteColors'))
 let currentColor = '#18AFA5'
 let isDrawing = false
 let isDrawnOn = false
@@ -16,7 +18,24 @@ let isGrid = false
 let currentGridDimensions = 0
 let gridCells = []
 let gridSizeUserInput = 0
+
 //on dev
+
+// function changeMainColor(paletteColor) {
+//     mainColor.value = paletteColor.value
+//     currentColor = paletteColor.value
+// }
+
+palette.forEach(paletteColor=>paletteColor.addEventListener('input', ()=>{
+    mainColor.value = paletteColor.value
+    currentColor = paletteColor.value
+}))
+palette.forEach(paletteColor=>paletteColor.addEventListener('dblclick', ()=>{
+    mainColor.value = paletteColor.value
+    currentColor = paletteColor.value
+}))
+
+//
 function drawPixelValueOne(cell) {
     cell.style.background = currentColor
 }
