@@ -8,7 +8,7 @@ const questionContainer = document.getElementById('questionContainer')
 const clearGridButton = document.getElementById('clearGridButton')
 const pixelSizeSlider = document.getElementById('pixelSizeSlider')
 const question = document.getElementById('question')
-const pixelSizeValue = document.getElementById('pixelSizeValue')
+const pixelSizeDisplay = document.getElementById('pixelSizeValue')
 const mainColor = document.getElementById('mainColor')
 const palette = Array.from(document.querySelectorAll('#paletteColors'))
 let currentColor = '#18AFA5'
@@ -119,7 +119,7 @@ function stopDrawing() { //stored in installEventListeners
     isDrawing = false
 }
 
-function installTestAttributes() {
+function installCellAttributes() {
     for (let i = 0; i < parseInt(gridSizeUserInput)+2; i++) {
         if (i==0) {gridCells[i].dataset.topleftcorner='true';gridCells[i].dataset.topleftside='true'}
         if (i==parseInt(gridSizeUserInput)+1||i==1||i==parseInt(gridSizeUserInput)) {gridCells[i].dataset.topleftside='true'}
@@ -145,15 +145,15 @@ function installGridEventListeners() { //stored in installEventListeners
     grid.addEventListener('mouseup', stopDrawing)
 }
 
-function installEventListeners() { //stored in createGridSize
+function installAttributesAndListeners() { //stored in createGridSize
     gridCells = document.getElementsByTagName('li')
-    for (let item of gridCells) {
-        item.addEventListener('mousedown', startDrawing)
-        item.addEventListener('mouseover', continueDrawing)
-        item.addEventListener('mouseup', stopDrawing)
+    for (let cell of gridCells) {
+        cell.addEventListener('mousedown', startDrawing)
+        cell.addEventListener('mouseover', continueDrawing)
+        cell.addEventListener('mouseup', stopDrawing)
     }
     installGridEventListeners()
-    installTestAttributes()
+    installCellAttributes()
 }
 
 function toggleQuestionDisplay() {
@@ -179,14 +179,14 @@ function createGridSize() {
             grid.appendChild(gridCell.cloneNode())
             i++
         }
-        installEventListeners()
+        installAttributesAndListeners()
         isDrawnOn=false
     }}
     isGrid=true
 }
 
 pixelSizeSlider.addEventListener('input' ,()=> {
-    pixelSizeValue.innerText=pixelSizeSlider.value
+    pixelSizeDisplay.innerText=pixelSizeSlider.value
 })
 clearGridButton.addEventListener('click', ()=>{
     if (isGrid && isDrawnOn) {
