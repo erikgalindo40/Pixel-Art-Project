@@ -57,6 +57,7 @@ html {
   flex-direction: row;
   justify-content: center;
   vertical-align: middle;
+  position: relative;
 }
 
 .color-picker {
@@ -131,7 +132,7 @@ html {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  z-index: 10;
+  z-index: 15;
   padding: .5em;
 
   background-color: white;
@@ -185,7 +186,7 @@ html {
   transform: translate(-50%, -50%);
 
   background: rgb(0, 0, 0);
-  opacity: .7;
+  opacity: .6;
 }
 
 .hide.question-container {
@@ -219,4 +220,157 @@ html {
   position: absolute;
   top: 23%;
   left: 0;
+}
+
+
+/* INSTRUCTIONS STYLES */
+
+.instructions-wrapper {
+  z-index: 9;
+}
+
+.hide-instruction.body::before {
+  position: absolute;
+  z-index: 8;
+  display: block;
+  content: " ";
+  width: 110vw;
+  height: 1500vh;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background: rgba(0, 0, 0, 0.512);
+}
+
+/* instruction menu styles */
+
+.instructions-menu {
+  font-size: large;
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 1em;
+  border: 1px solid blue;
+  padding: .5em;
+  background-color: rgba(224, 220, 220, 0.923);
+  color: black;
+}
+
+.instructions-menu-title {
+  user-select: none;
+  padding: .1em;
+  margin-bottom: 1em;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0);
+  border-bottom: 2px solid black;
+}
+
+.instructions-menu-title:hover {
+  border: 2px solid black ;
+  background-color: rgba(0, 0, 0, 0.164);
+}
+
+.instructions-menu-ul {
+  margin: 0;padding: 0;
+  list-style-type: none;
+}
+
+.instructions-menu-item {
+  user-select: none;
+  margin-block: 2em;
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.instructions-menu-item:hover, .instructions-menu-item:focus {
+  border: 1px solid blue;
+  background-color: rgba(67, 67, 223, 0.419);
+}
+
+.instructions-menu-ul.hide-list {
+  display: none;
+}
+
+/* color instructions */
+.color-palette-instructions {
+  min-width: 20em;
+  font-size: larger;
+  position: absolute;
+  z-index: 100;
+  top: 21%;
+  right: 0em;
+  
+  background-color: rgb(15, 15, 85);
+  padding-inline: 0.5em;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+
+  user-select: none;
+}
+
+.color-hide {
+  display: none;
+}
+
+.show-instruction.color-selectors {
+  z-index: 100;
+}
+
+/* pixel instructions */
+.pixel-size-instructions {
+  text-align: center;
+  font-size: larger;
+
+  position: absolute;
+  z-index: 100;
+  bottom: 2em;
+  right: -1.5em;
+
+  background-color: rgb(15, 15, 85);
+  min-width: 30em;
+  padding-inline: .3em;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  
+  user-select: none;
+}
+
+.slider-hide {
+  display: none;
+}
+
+.show-instruction.pixel-size-info {
+  z-index: 100;
+}
+
+
+/* create isntructions */
+.create-grid-instructions {
+  font-size: larger;
+  background-color: rgb(15, 15, 85);
+  padding-inline: .5em;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+
+  position: absolute;
+  z-index: 100;
+  bottom: 2em;
+  left: 0;
+  user-select: none;
+}
+
+.create-hide {
+  display: none;
+}
+
+.show-instruction.create-grid-button {
+  z-index: 100;
+}
+
+.show-instruction.create-grid-input {
+  z-index: 100;
 }

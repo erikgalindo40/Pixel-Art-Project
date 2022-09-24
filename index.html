@@ -9,6 +9,16 @@
     <script src="script.js" defer></script>
   </head>
   <body id="body" class="body">
+    <div class="instructions-wrapper">
+      <div class="instructions-menu">
+        <div tabindex="0" id="instructionTitle" class="instructions-menu-title">Instructions</div>
+        <ul id="instructionList" class="instructions-menu-ul hide-list">
+          <div tabindex="0" id="createButtonInstruction" class="instructions-menu-item hide-item">|| How Create Square Grid works</div>
+          <div tabindex="0" id="colorInstruction" class="instructions-menu-item hide-item">|| How the color palette works</div>
+          <div tabindex="0" id="sliderInstruction" class="instructions-menu-item hide-item">|| How the slider works</div>
+        </ul>
+      </div>
+    </div>
     <div id="questionContainer" class="question-container hide">
       <p id="question">Current grid is about to be replaced</p>
       <strong>Are you sure?</strong>
@@ -20,7 +30,20 @@
     <div class="grid-container">
       <ul class="grid" id="grid" data-nocolor="nocolor">
       </ul>
-      <div class="color-selectors">
+      <div id="colorInstructionDisplay" class="color-palette-instructions color-hide">
+        <p><b><u>The Color Palette</u></b> &nbsp;&nbsp; &rarr;
+          <br>
+          <br>
+          <b>TOP BOX</b> shows the color being currently used
+          <br>
+          <br>
+          <b>SINGLE CLICK</b> on any box brings up color selector
+          <br>
+          <br>
+          <b>DOUBLE CLICK</b> on any box sets 'currently using' color to selected color 
+        </p>
+      </div>
+      <div id="colorSelectors" class="color-selectors">
         <input id="mainColor" oninput="currentColor = this.value" value="#18AFA5" type="color" class="color-picker" />
         <div class="color-queue">
           <input id="paletteColors" type="color" class="color-picker palette-color">
@@ -30,10 +53,33 @@
       </div>
     </div>
     <div class="tools-wrapper">
-      <input class="input-buttons create-grid-button" id="submitButton" type="submit" value="Create __ by __ Grid">
+      <div id="createInstructionDisplay" class="create-grid-instructions create-hide">
+        <p><b><u>The 'Create Square Grid' Button</u> &nbsp; &darr;</b></p>
+        <p>
+          <b>INPUT</b>: A single number
+          <br>
+          <b>OUTPUT</b>: A square grid with dimensions of that number
+          <br>
+          <br>
+          <b>E.G.</b>
+          <br>
+          <b>Input</b>: 8 = 8x8 Grid
+          <br>
+          <b>Input</b>: 24 = 24x24 Grid
+          <br>
+          <br> <b>MAX</b> input = 55
+        </p>
+      </div>
+      <input class="input-buttons create-grid-button" id="submitButton" type="submit" value="Create Square Grid">
       <input class="input-buttons create-grid-input" type="text" id="gridSizeDefiner">
-      <input class="input-buttons clear-grid-button" id="clearGridButton" type="submit" value="Clear Grid">     
-      <div class="pixel-size-info">
+      <input class="input-buttons clear-grid-button" id="clearGridButton" type="submit" value="Erase Grid">
+      <div id="sliderInstructionDisplay" class="pixel-size-instructions slider-hide">
+        <p><b><u>What does this slider do?</u></b>
+          <br>
+          This slider sets your "pixel brush" size to the current slider value &nbsp;&darr;
+        </p>
+      </div>
+      <div id="sliderInfo" class="pixel-size-info">
         <input class="slider" id="pixelSizeSlider" type="range" min="1" max="3" value="1">
         <div class="slider-value" id="pixelSizeValue">1</div>
       </div>

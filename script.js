@@ -1,46 +1,52 @@
 const body = document.getElementById('body')
 const grid = document.getElementById('grid')
+//grid function variables
 const gridSizeDefiner = document.getElementById('gridSizeDefiner')
 const submitButton = document.getElementById('submitButton')
+const clearGridButton = document.getElementById('clearGridButton')
+//question variables
 const yesAnswerButton = document.getElementById('yesAnswerButton')
 const noAnswerButton = document.getElementById('noAnswerButton')
 const questionContainer = document.getElementById('questionContainer')
-const clearGridButton = document.getElementById('clearGridButton')
-const pixelSizeSlider = document.getElementById('pixelSizeSlider')
 const question = document.getElementById('question')
+//slider variables
+const pixelSizeSlider = document.getElementById('pixelSizeSlider')
 const pixelSizeDisplay = document.getElementById('pixelSizeValue')
+//color selector variables
 const mainColor = document.getElementById('mainColor')
 const palette = Array.from(document.querySelectorAll('#paletteColors'))
+//instruction variables
+const instructionTitle = document.getElementById('instructionTitle')
+const instructionList = document.getElementById('instructionList')
+const createInstructionButton = document.getElementById('createButtonInstruction')
+const colorInstructionButton = document.getElementById('colorInstruction')
+const sliderInstructionButton = document.getElementById('sliderInstruction')
+const createInstructionDisplay = document.getElementById('createInstructionDisplay')
+const colorInstructionDisplay = document.getElementById('colorInstructionDisplay')
+const sliderInstructionDisplay = document.getElementById('sliderInstructionDisplay')
+const sliderInfo = document.getElementById('sliderInfo')
+const colorSelectors = document.getElementById('colorSelectors')
 let currentColor = '#18AFA5'
 let isDrawing = false
 let isDrawnOn = false
 let isGrid = false
 let currentGridDimensions = 0
-let gridCells = []
 let gridSizeUserInput = 0
+let gridCells = []
 
-//on dev
-
-// function changeMainColor(paletteColor) {
-//     mainColor.value = paletteColor.value
-//     currentColor = paletteColor.value
-// }
-
-palette.forEach(paletteColor=>paletteColor.addEventListener('input', ()=>{
-    mainColor.value = paletteColor.value
-    currentColor = paletteColor.value
-}))
-palette.forEach(paletteColor=>paletteColor.addEventListener('dblclick', ()=>{
-    mainColor.value = paletteColor.value
-    currentColor = paletteColor.value
-}))
-
-//
 function drawPixelValueOne(cell) {
+    // This function will change the background color 
+    // of the selected grid cell
     cell.style.background = currentColor
 }
 
 function drawPixelValueTwo(cell) {
+    // This function changes the background color
+    // of the selected cell ALONG with the cells directly above,
+    // to the left, and top left(diagonal) of selected cell
+    // This function also checks if the left edge cells are
+    // selected and colors only the selected cell AND the cell
+    // directly above so as not to color the right edge cells accidentally
     if(cell.dataset.topleftcorner=='true') {
         drawPixelValueOne(cell)
     } else {
@@ -62,6 +68,12 @@ function drawPixelValueTwo(cell) {
 }
 
 function drawPixelValueThree(cell) {
+    // This function changes the background color for the selected grid cell,
+    // the grid cells above, and the grid cells to the left of the selected grid cell
+    // forming a small 3x3 colored box
+    // This function checks if the clicked/hovered grid cell
+    // has any data attribute then
+    // calls the drawing function corresponding to that attribute
     if(cell.dataset.topleftside=='true') {
         drawPixelValueTwo(cell)
     } else {
@@ -97,7 +109,14 @@ function drawPixelValueThree(cell) {
 }
 }
 
-function startDrawing() { //stored in installEventListeners
+function startDrawing() {
+    // This function sets the isDrawing variable to true
+    // and calls the respective drawing function according
+    // to the slider value
+    // This function also checks to see if the grid itself was selected
+    // If so, only the isDrawing variable is set to true,
+    // without calling a drawing function,
+    // so as not to color the grid itself
     if(this.dataset.nocolor == 'nocolor') { 
         isDrawing=true 
     } else {
@@ -107,7 +126,12 @@ function startDrawing() { //stored in installEventListeners
     }
 }
 
-function continueDrawing() { //stored in installEventListeners
+function continueDrawing() { 
+    // This function allows the drawing functions
+    // to run if the isDrawing variable is set to true
+    // Essentially, letting the user hold the
+    // mouse button down to draw, instead of having to
+    // click every cell individually
     if (isDrawing) {
         if(pixelSizeSlider.value==1) {drawPixelValueOne(this)}
         if (pixelSizeSlider.value==2) {drawPixelValueTwo(this)}
@@ -115,11 +139,20 @@ function continueDrawing() { //stored in installEventListeners
     }
 }
 
-function stopDrawing() { //stored in installEventListeners
+function stopDrawing() { 
+    // This function sets the isDrawing variable to false,
+    // effectively not letting the user change the 
+    // background color for any grid cell
     isDrawing = false
 }
 
 function installCellAttributes() {
+    // This function adds data-attributes to the left & top edge grid cells,
+    // adds data-attributes to the grid cells one row from the left & top edge, AND
+    // adds a data-attribute to the grid cells at the top-left corner & diagonally
+    // bottom right from the top-left corner
+    // This allows the drawing functions to check if the user clicked or hovered over
+    // these specified cells to prevent 'color leakage' onto right edge grid cells
     for (let i = 0; i < parseInt(gridSizeUserInput)+2; i++) {
         if (i==0) {gridCells[i].dataset.topleftcorner='true';gridCells[i].dataset.topleftside='true'}
         if (i==parseInt(gridSizeUserInput)+1||i==1||i==parseInt(gridSizeUserInput)) {gridCells[i].dataset.topleftside='true'}
@@ -138,14 +171,21 @@ function installCellAttributes() {
     }
 }
 
-function installGridEventListeners() { //stored in installEventListeners
+function installGridEventListeners() { 
+    // This function adds event listeners for clicks/hovers on the grid itself,
+    // so the user won't have to accurately click on a grid cell
+    // to call the drawing functions
     grid.addEventListener('click', ()=>{isDrawnOn=true})
     grid.addEventListener('mousedown', startDrawing)
     grid.addEventListener('mouseleave', stopDrawing)
     grid.addEventListener('mouseup', stopDrawing)
 }
 
-function installAttributesAndListeners() { //stored in createGridSize
+function installAttributesAndListeners() { 
+    // This function adds event listeners for each cell in the grid
+    // to call drawing functions upon event
+    // This function also stores the installGridEventListeners function AND
+    // the installCellAttributes function
     gridCells = document.getElementsByTagName('li')
     for (let cell of gridCells) {
         cell.addEventListener('mousedown', startDrawing)
@@ -157,12 +197,17 @@ function installAttributesAndListeners() { //stored in createGridSize
 }
 
 function toggleQuestionDisplay() {
+    // This function toggles the 'Are You Sure?' question page
+    // and automatically focuses on the 'No' answer
     body.classList.toggle('hide')
     questionContainer.classList.toggle('hide')
-
+    noAnswerButton.focus()
 }
 
 function createGridSize() {
+    // This function brings up the question display if grid
+    // is drawn on, clears grid of current color, and creates a grid if 
+    // a valid number is inputted 
     gridSizeUserInput = gridSizeDefiner.value
     let validGridDimensions = gridSizeUserInput > 0 && gridSizeUserInput <=55
     if (validGridDimensions && isDrawnOn) {
@@ -186,26 +231,138 @@ function createGridSize() {
 }
 
 pixelSizeSlider.addEventListener('input' ,()=> {
+    // Changes value of display next to slider to show what
+    // value the slider is at 
     pixelSizeDisplay.innerText=pixelSizeSlider.value
 })
 clearGridButton.addEventListener('click', ()=>{
+    // Brings up question display asking if its okay to Erase Grid
+    // upon valid variable values
     if (isGrid && isDrawnOn) {
         question.innerText = 'Current grid is about to be erased'
         toggleQuestionDisplay()
-        noAnswerButton.focus()
     }
 })
+
+// Event Listeners to not let user escape question display
+// and change Grid to empty upon Yes answer
 yesAnswerButton.addEventListener('click',()=>{
         isDrawnOn=false
         createGridSize()
         toggleQuestionDisplay()
 })
-noAnswerButton.addEventListener('click', toggleQuestionDisplay)
-submitButton.addEventListener('click', ()=>{
-    createGridSize()
-    noAnswerButton.focus()
+yesAnswerButton.addEventListener('keydown',(e)=>{
+    if(e.shiftKey && e.key=='Tab') {
+        e.preventDefault()
+        noAnswerButton.focus()
+    }
 })
+noAnswerButton.addEventListener('click', toggleQuestionDisplay)
+noAnswerButton.addEventListener('keydown', (e)=>{
+    if(e.key=='Tab') {
+        e.preventDefault()
+        yesAnswerButton.focus()
+    }
+})
+
+// Event Listeners for 'Click' and 'Enter' key to submit grid size on non-empty & valid input
+submitButton.addEventListener('click', createGridSize)
 gridSizeDefiner.addEventListener('keypress', (e)=>{
     if (e.key == 'Enter') createGridSize();
-    noAnswerButton.focus()
+})
+
+// Event Listeners to create single click and double click functionality for color selectors
+palette.forEach(paletteColor=>paletteColor.addEventListener('input', ()=>{
+    mainColor.value = paletteColor.value
+    currentColor = paletteColor.value
+}))
+palette.forEach(paletteColor=>paletteColor.addEventListener('dblclick', ()=>{
+    mainColor.value = paletteColor.value
+    currentColor = paletteColor.value
+}))
+
+// Event Listeners to access/leave instruction menu AND prevent leaving instruction menu through shift-tabbing out
+instructionTitle.addEventListener('click', ()=>{
+    instructionList.classList.toggle('hide-list')
+    body.classList.toggle('hide-instruction')
+})
+instructionTitle.addEventListener('keypress', (e)=>{
+    if (e.key == 'Enter') {
+        instructionList.classList.toggle('hide-list')
+        body.classList.toggle('hide-instruction')
+    }
+})
+instructionTitle.addEventListener('keydown',(e)=>{
+    if(e.shiftKey && e.key=='Tab') {
+        e.preventDefault()
+        sliderInstructionButton.focus()
+    }
+})
+
+// Event Listeners to toggle Create Grid instructions on hover and focus
+createInstructionButton.addEventListener('mouseover', ()=>{
+    createInstructionDisplay.classList.toggle('create-hide')
+    submitButton.classList.toggle('show-instruction')
+    gridSizeDefiner.classList.toggle('show-instruction')
+})
+createInstructionButton.addEventListener('mouseleave', ()=>{
+    createInstructionDisplay.classList.toggle('create-hide')
+    submitButton.classList.toggle('show-instruction')
+    gridSizeDefiner.classList.toggle('show-instruction')
+    createInstructionButton.blur()
+})
+createInstructionButton.addEventListener('focus', ()=>{
+    createInstructionDisplay.classList.toggle('create-hide')
+    submitButton.classList.toggle('show-instruction')
+    gridSizeDefiner.classList.toggle('show-instruction')
+})
+createInstructionButton.addEventListener('blur', ()=>{
+    createInstructionDisplay.classList.toggle('create-hide')
+    submitButton.classList.toggle('show-instruction')
+    gridSizeDefiner.classList.toggle('show-instruction')
+})
+
+// Event Listeners to toggle Color Palette instructions on hover and focus
+colorInstructionButton.addEventListener('mouseover', ()=>{
+    colorInstructionDisplay.classList.toggle('color-hide')
+    colorSelectors.classList.toggle('show-instruction')
+})
+colorInstructionButton.addEventListener('mouseleave', ()=>{
+    colorInstructionDisplay.classList.toggle('color-hide')
+    colorSelectors.classList.toggle('show-instruction')
+    colorInstructionButton.blur()
+})
+colorInstructionButton.addEventListener('focus', ()=>{
+    colorInstructionDisplay.classList.toggle('color-hide')
+    colorSelectors.classList.toggle('show-instruction')
+})
+colorInstructionButton.addEventListener('blur', ()=>{
+    colorInstructionDisplay.classList.toggle('color-hide')
+    colorSelectors.classList.toggle('show-instruction')
+})
+
+// Event Listeners to display Slider instructions on hover and focus
+// and prevent leaving instruction menu through tabbing out
+sliderInstructionButton.addEventListener('mouseover', ()=>{
+    sliderInstructionDisplay.classList.toggle('slider-hide')
+    sliderInfo.classList.toggle('show-instruction')
+})
+sliderInstructionButton.addEventListener('mouseleave', ()=>{
+    sliderInstructionDisplay.classList.toggle('slider-hide')
+    sliderInfo.classList.toggle('show-instruction')
+    sliderInstructionButton.blur()
+})
+sliderInstructionButton.addEventListener('focus', ()=>{
+    sliderInstructionDisplay.classList.toggle('slider-hide')
+    sliderInfo.classList.toggle('show-instruction')
+})
+sliderInstructionButton.addEventListener('blur', ()=>{
+    sliderInstructionDisplay.classList.toggle('slider-hide')
+    sliderInfo.classList.toggle('show-instruction')
+})
+sliderInstructionButton.addEventListener('keydown',(e)=>{
+    if(e.key=='Tab') {
+        e.preventDefault()
+        instructionTitle.focus()
+    }
 })
