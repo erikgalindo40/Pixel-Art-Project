@@ -70,10 +70,11 @@ function drawPixelValueTwo(cell) {
 function drawPixelValueThree(cell) {
     // This function changes the background color for the selected grid cell,
     // the grid cells above, and the grid cells to the left of the selected grid cell
-    // forming a small 3x3 colored box
+    // forming a small 3x3 colored box, with the selected cell, being
+    // the bottom right corner cell
     // This function checks if the clicked/hovered grid cell
-    // has any data attribute then
-    // calls the drawing function corresponding to that attribute
+    // has any data attribute then calls
+    // the drawing function corresponding to that attribute
     if(cell.dataset.topleftside=='true') {
         drawPixelValueTwo(cell)
     } else {
@@ -230,6 +231,28 @@ function createGridSize() {
     isGrid=true
 }
 
+function toggleInstructionDisplay(instructionDisplay, ...args) {
+    // This function toggles the display of a specific instruction menu
+    // passed as an agrument,
+    // along with any number of supplementary displays,
+    // corresponding with that specific instruction
+    // Depends on instructionDisplay variable name format not changing
+    let instructionName = instructionDisplay.id.split('I')[0]
+    instructionDisplay.classList.toggle(`${instructionName}-hide`)
+    for (let extraDisplay of args) {
+        extraDisplay.classList.toggle(`show-instruction`)
+    }
+}
+
+function changePaletteColor(paletteBox) {
+    // This function changes the color being currently used
+    // to the selected color 
+    // and displays that newly selected color
+    // at the top color box
+    mainColor.value = paletteBox.value
+    currentColor = paletteBox.value
+}
+
 pixelSizeSlider.addEventListener('input' ,()=> {
     // Changes value of display next to slider to show what
     // value the slider is at 
@@ -271,14 +294,12 @@ gridSizeDefiner.addEventListener('keypress', (e)=>{
     if (e.key == 'Enter') createGridSize();
 })
 
-// Event Listeners to create single click and double click functionality for color selectors
+// Adds event Listeners to create single click and double click functionality for color selectors
 palette.forEach(paletteColor=>paletteColor.addEventListener('input', ()=>{
-    mainColor.value = paletteColor.value
-    currentColor = paletteColor.value
+    changePaletteColor(paletteColor)
 }))
 palette.forEach(paletteColor=>paletteColor.addEventListener('dblclick', ()=>{
-    mainColor.value = paletteColor.value
-    currentColor = paletteColor.value
+    changePaletteColor(paletteColor)
 }))
 
 // Event Listeners to access/leave instruction menu AND prevent leaving instruction menu through shift-tabbing out
@@ -299,66 +320,50 @@ instructionTitle.addEventListener('keydown',(e)=>{
     }
 })
 
-// Event Listeners to toggle Create Grid instructions on hover and focus
+// Event Listeners to toggle Create Grid instructions on hover & focus
 createInstructionButton.addEventListener('mouseover', ()=>{
-    createInstructionDisplay.classList.toggle('create-hide')
-    submitButton.classList.toggle('show-instruction')
-    gridSizeDefiner.classList.toggle('show-instruction')
+    toggleInstructionDisplay(createInstructionDisplay, submitButton, gridSizeDefiner)
 })
 createInstructionButton.addEventListener('mouseleave', ()=>{
-    createInstructionDisplay.classList.toggle('create-hide')
-    submitButton.classList.toggle('show-instruction')
-    gridSizeDefiner.classList.toggle('show-instruction')
+    toggleInstructionDisplay(createInstructionDisplay, submitButton, gridSizeDefiner)
     createInstructionButton.blur()
 })
 createInstructionButton.addEventListener('focus', ()=>{
-    createInstructionDisplay.classList.toggle('create-hide')
-    submitButton.classList.toggle('show-instruction')
-    gridSizeDefiner.classList.toggle('show-instruction')
+    toggleInstructionDisplay(createInstructionDisplay, submitButton, gridSizeDefiner)
 })
 createInstructionButton.addEventListener('blur', ()=>{
-    createInstructionDisplay.classList.toggle('create-hide')
-    submitButton.classList.toggle('show-instruction')
-    gridSizeDefiner.classList.toggle('show-instruction')
+    toggleInstructionDisplay(createInstructionDisplay, submitButton, gridSizeDefiner)
 })
 
-// Event Listeners to toggle Color Palette instructions on hover and focus
+// Event Listeners to toggle Color Palette instructions on hover & focus
 colorInstructionButton.addEventListener('mouseover', ()=>{
-    colorInstructionDisplay.classList.toggle('color-hide')
-    colorSelectors.classList.toggle('show-instruction')
+    toggleInstructionDisplay(colorInstructionDisplay, colorSelectors)
 })
 colorInstructionButton.addEventListener('mouseleave', ()=>{
-    colorInstructionDisplay.classList.toggle('color-hide')
-    colorSelectors.classList.toggle('show-instruction')
+    toggleInstructionDisplay(colorInstructionDisplay, colorSelectors)
     colorInstructionButton.blur()
 })
 colorInstructionButton.addEventListener('focus', ()=>{
-    colorInstructionDisplay.classList.toggle('color-hide')
-    colorSelectors.classList.toggle('show-instruction')
+    toggleInstructionDisplay(colorInstructionDisplay, colorSelectors)
 })
 colorInstructionButton.addEventListener('blur', ()=>{
-    colorInstructionDisplay.classList.toggle('color-hide')
-    colorSelectors.classList.toggle('show-instruction')
+    toggleInstructionDisplay(colorInstructionDisplay, colorSelectors)
 })
 
-// Event Listeners to display Slider instructions on hover and focus
+// Event Listeners to toggle Slider instructions on hover & focus
 // and prevent leaving instruction menu through tabbing out
 sliderInstructionButton.addEventListener('mouseover', ()=>{
-    sliderInstructionDisplay.classList.toggle('slider-hide')
-    sliderInfo.classList.toggle('show-instruction')
+    toggleInstructionDisplay(sliderInstructionDisplay, sliderInfo)
 })
 sliderInstructionButton.addEventListener('mouseleave', ()=>{
-    sliderInstructionDisplay.classList.toggle('slider-hide')
-    sliderInfo.classList.toggle('show-instruction')
+    toggleInstructionDisplay(sliderInstructionDisplay, sliderInfo)
     sliderInstructionButton.blur()
 })
 sliderInstructionButton.addEventListener('focus', ()=>{
-    sliderInstructionDisplay.classList.toggle('slider-hide')
-    sliderInfo.classList.toggle('show-instruction')
+    toggleInstructionDisplay(sliderInstructionDisplay, sliderInfo)
 })
 sliderInstructionButton.addEventListener('blur', ()=>{
-    sliderInstructionDisplay.classList.toggle('slider-hide')
-    sliderInfo.classList.toggle('show-instruction')
+    toggleInstructionDisplay(sliderInstructionDisplay, sliderInfo)
 })
 sliderInstructionButton.addEventListener('keydown',(e)=>{
     if(e.key=='Tab') {
