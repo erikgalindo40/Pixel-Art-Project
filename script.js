@@ -371,3 +371,8 @@ sliderInstructionButton.addEventListener('keydown',(e)=>{
         instructionTitle.focus()
     }
 })
+
+// Event Listener for Window to prevent Page Refresh after any User Input
+window.onbeforeunload = function(e) {
+    e.returnValue = `huh`
+}
