@@ -34,6 +34,8 @@ let currentGridDimensions = 0
 let gridSizeUserInput = 0
 let gridCells = []
 
+//on dev
+
 function drawPixelValueOne(cell) {
     // This function will change the background color 
     // of the selected grid cell
