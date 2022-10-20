@@ -35,6 +35,39 @@ let gridSizeUserInput = 0
 let gridCells = []
 
 //on dev
+const saveButton = document.getElementById('saveButton')
+const addPrevArtButton = document.getElementById('addPrevArtButton')
+
+function saveArt() {
+    localStorage.clear()
+    localStorage.setItem('gridSize', gridSizeDefiner.value)
+    let i = 0
+    for(let cell of gridCells) {
+        if (cell.style.background) {
+            localStorage.setItem(`cell-${i}`,cell.style.background)
+        } else {
+            localStorage.setItem(`cell-${i}`, 'rgb(255,255,255)')
+        }
+        i++
+    }
+}
+
+function addPrevArt() {
+    if(localStorage.gridSize) {
+        let i = 0
+        gridSizeDefiner.value = localStorage.gridSize
+        createGridSize()
+        for(let cell of gridCells) {
+            cell.style.background = localStorage[`cell-${i}`]
+            i++
+        }
+    }
+}
+    
+// saveButton.addEventListener('click', ()=>saveArt())
+// addPrevArtButton.addEventListener('click', ()=>addPrevArt())
+
+//IN DEV
 
 function drawPixelValueOne(cell) {
     // This function will change the background color 
@@ -375,6 +408,6 @@ sliderInstructionButton.addEventListener('keydown',(e)=>{
 })
 
 // Event Listener for Window to prevent Page Refresh after any User Input
-window.onbeforeunload = function(e) {
-    e.returnValue = `huh`
-}
+// window.onbeforeunload = function(e) {
+//     e.returnValue = `huh`
+// }
