@@ -39,7 +39,6 @@ html {
 }
 
 .grid-container li {
-  background: white;
   width: auto;
   height: auto;
   min-width: 8px;
@@ -373,4 +372,76 @@ html {
 
 .show-instruction.create-grid-input {
   z-index: 100;
+}
+
+/* save files  */
+.save-files-wrapper {
+  user-select: none;
+
+  font-size: large;
+  font-weight: bold;
+  background-color: white;
+  padding: .5em;
+  border: 1px solid blue;
+
+  position: absolute;
+  z-index: 1;
+  top: 5em;
+  left: 1em;
+}
+
+.save-file-header {
+  cursor: pointer;
+  width: fit-content;
+  border-bottom: 2px solid white;
+}
+
+.save-file-header:hover {
+  border-bottom: 2px solid black;
+}
+
+.dim-background.save-files-wrapper::before {
+  position: absolute;
+  display: block;
+  content: '';
+  background-color: rgba(0, 0, 0, 0.498);
+  width: 150vw;
+  height: 150vh;
+  top: -10em;left: -10em;
+  z-index: 100;
+}
+
+.save-files-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.save-file {
+  user-select: auto;
+  border: 2px solid black;
+  margin-block: .5em;
+  padding: 0.5em;
+
+  display: flex;
+  justify-content: space-between;
+
+  width: 30em;
+  position: relative; /*for .save-file-rename positioning*/
+}
+
+.save-file.hide-save-file {
+  display: none;
+}
+
+.save-file-rename {
+  position: absolute;
+  left: 14%;
+  height: 40%;
+  
+  display: none;
+}
+
+.save-file-rename.show-save-file-rename {
+  display: block;
 }

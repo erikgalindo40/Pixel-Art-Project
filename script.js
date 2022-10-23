@@ -30,42 +30,91 @@ let currentColor = '#18AFA5'
 let isDrawing = false
 let isDrawnOn = false
 let isGrid = false
-let currentGridDimensions = 0
-let gridSizeUserInput = 0
-let gridCells = []
+// let currentGridDimensions = 0
+// let gridSizeUserInput = 0
+// let gridCells = []
 
 //on dev
-const saveButton = document.getElementById('saveButton')
-const addPrevArtButton = document.getElementById('addPrevArtButton')
 
-function saveArt() {
-    localStorage.clear()
-    localStorage.setItem('gridSize', gridSizeDefiner.value)
+function saveArt(identifier) {
+    let artID = identifier.dataset.artid
+    let artPieceColors = []
+    let gridCells = document.querySelectorAll('[data-cell]')
+    gridCells.forEach(cell=>artPieceColors.push(cell.style.background))
+    const artPieceObject = {
+        gridSize: gridSizeDefiner.value,
+        colors: artPieceColors,
+    }
+    localStorage.setItem(`artPiece${artID}`, JSON.stringify(artPieceObject))
+}
+
+function loadArt(identifier) {
+    //DANGEROUS
+    isDrawnOn=false
+    //DANGEROUS
+    let artID = identifier.dataset.artid
+    let artToLoad = JSON.parse(localStorage.getItem(`artPiece${artID}`))
+    gridSizeDefiner.value = artToLoad.gridSize
+    createGridSize(artToLoad.gridSize)
+    let gridCells = document.querySelectorAll('[data-cell]')
     let i = 0
     for(let cell of gridCells) {
-        if (cell.style.background) {
-            localStorage.setItem(`cell-${i}`,cell.style.background)
-        } else {
-            localStorage.setItem(`cell-${i}`, 'rgb(255,255,255)')
-        }
+        cell.style.background = artToLoad.colors[i]
         i++
     }
 }
 
-function addPrevArt() {
-    if(localStorage.gridSize) {
-        let i = 0
-        gridSizeDefiner.value = localStorage.gridSize
-        createGridSize()
-        for(let cell of gridCells) {
-            cell.style.background = localStorage[`cell-${i}`]
-            i++
-        }
-    }
+const saveFiles = document.querySelectorAll('.save-file')
+const saveFilesHeader = document.getElementById('saveFilesHeader')
+const saveFilesContainer = document.getElementById('saveFilesContainer')
+
+//save file buttons
+const saveButtons = document.querySelectorAll('#saveButton')
+const loadArtButtons = document.querySelectorAll('#loadArtButton')
+//rename file variables
+const fileToRenameInputs = document.querySelectorAll('#fileRename')
+const renameFileButtons = document.querySelectorAll('#renameFileButton')
+
+function renameSaveFile(identifier, input) {
+    let fileToRename = document.getElementById(`saveFileName${identifier}`)
+    fileToRename.innerText = input.value
+    toggleSaveFileRenameInput(input.dataset.renameid)
 }
+
+function toggleSaveFileRenameInput(identifier) {
+    //rename identifier not zero-indexed, so subtract 1
+    let selectedFile = parseInt(identifier-1)
+    fileToRenameInputs[selectedFile].classList.toggle('show-save-file-rename')
+    fileToRenameInputs[selectedFile].focus()
+}
+
+fileToRenameInputs.forEach(input=>
+    input.addEventListener('keypress',
+    (e)=>{
+        if(e.key=='Enter') {
+            renameSaveFile(input.dataset.artid, input)   
+        }
+    }))
+
+renameFileButtons.forEach(
+    renameFileButton=>renameFileButton.addEventListener('click', 
+    ()=>toggleSaveFileRenameInput(renameFileButton.dataset.renameid)))
+
+
     
-// saveButton.addEventListener('click', ()=>saveArt())
-// addPrevArtButton.addEventListener('click', ()=>addPrevArt())
+for(let saveButton of saveButtons) {
+    saveButton.addEventListener('click', ()=>saveArt(saveButton))
+}
+for(let loadButton of loadArtButtons) {
+    loadButton.addEventListener('click', ()=>loadArt(loadButton))
+}
+
+
+saveFilesHeader.addEventListener('click', ()=> {
+    for (let file of saveFiles) {
+        file.classList.toggle('hide-save-file')
+    }
+})
 
 //IN DEV
 
@@ -75,34 +124,34 @@ function drawPixelValueOne(cell) {
     cell.style.background = currentColor
 }
 
-function drawPixelValueTwo(cell) {
+function drawPixelValueTwo(cell, gridSizeUserInput , gridCells) {
     // This function changes the background color
     // of the selected cell ALONG with the cells directly above,
     // to the left, and top left(diagonal) of selected cell
     // This function also checks if the left edge cells are
     // selected and colors only the selected cell AND the cell
     // directly above so as not to color the right edge cells accidentally
+    let currentGridDimensions = gridSizeUserInput //NEW USERINPUT STARTS HERE
     if(cell.dataset.topleftcorner=='true') {
         drawPixelValueOne(cell)
     } else {
-        let gridArray = Array.from(gridCells)
-        let currentCell = gridArray.indexOf(cell)
+        let currentCell = gridCells.indexOf(cell)//NEW GRID CELLS STARTS HERE
         if (cell.dataset.leftedge == 'true') {
             drawPixelValueOne(cell)
-            gridArray[currentCell-currentGridDimensions].style.background = currentColor
+            gridCells[currentCell-currentGridDimensions].style.background = currentColor
         } else if (cell.dataset.topedge=='true') {
             drawPixelValueOne(cell)
-            gridArray[currentCell-1].style.background = currentColor
+            gridCells[currentCell-1].style.background = currentColor
         } else {
             cell.style.background = currentColor
-            gridArray[currentCell-1].style.background = currentColor
-            gridArray[currentCell-currentGridDimensions].style.background = currentColor
-            gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
+            gridCells[currentCell-1].style.background = currentColor
+            gridCells[currentCell-currentGridDimensions].style.background = currentColor
+            gridCells[currentCell-currentGridDimensions-1].style.background = currentColor
         }
     }
 }
 
-function drawPixelValueThree(cell) {
+function drawPixelValueThree(cell, gridSizeUserInput, gridCells) {
     // This function changes the background color for the selected grid cell,
     // the grid cells above, and the grid cells to the left of the selected grid cell
     // forming a small 3x3 colored box, with the selected cell, being
@@ -110,42 +159,42 @@ function drawPixelValueThree(cell) {
     // This function checks if the clicked/hovered grid cell
     // has any data attribute then calls
     // the drawing function corresponding to that attribute
+    let currentGridDimensions = gridSizeUserInput //NEW GRID DIMENSIONS STARTS HERE
     if(cell.dataset.topleftside=='true') {
-        drawPixelValueTwo(cell)
+        drawPixelValueTwo(cell, gridSizeUserInput, gridCells)
     } else {
-        let gridArray = Array.from(gridCells)
-        let currentCell = gridArray.indexOf(cell)
+        let currentCell = gridCells.indexOf(cell)//NEW GRID INFO STARTS HERE
     if (cell.dataset.leftedge=='true') {
-        drawPixelValueTwo(cell)
-        gridArray[currentCell-(currentGridDimensions*2)].style.background = currentColor
+        drawPixelValueTwo(cell, gridSizeUserInput, gridCells)
+        gridCells[currentCell-(currentGridDimensions*2)].style.background = currentColor
     } else if (cell.dataset.leftside=='true') {
-        drawPixelValueTwo(cell)
-        gridArray[currentCell-(currentGridDimensions*2)].style.background = currentColor
-        gridArray[currentCell-(currentGridDimensions*2)-1].style.background = currentColor
+        drawPixelValueTwo(cell, gridSizeUserInput, gridCells)
+        gridCells[currentCell-(currentGridDimensions*2)].style.background = currentColor
+        gridCells[currentCell-(currentGridDimensions*2)-1].style.background = currentColor
     } else if (cell.dataset.topedge=='true') {
-        drawPixelValueTwo(cell)
-        gridArray[currentCell-2].style.background = currentColor
+        drawPixelValueTwo(cell, gridSizeUserInput, gridCells)
+        gridCells[currentCell-2].style.background = currentColor
     } else if (cell.dataset.topside=='true') {
-        drawPixelValueTwo(cell)
-        gridArray[currentCell-2].style.background = currentColor
-        gridArray[currentCell-currentGridDimensions-2].style.background = currentColor
+        drawPixelValueTwo(cell, gridSizeUserInput, gridCells)
+        gridCells[currentCell-2].style.background = currentColor
+        gridCells[currentCell-currentGridDimensions-2].style.background = currentColor
     } else {
         cell.style.background = currentColor
-        gridArray[currentCell-1].style.background = currentColor
-        gridArray[currentCell-currentGridDimensions].style.background = currentColor
-        gridArray[currentCell-currentGridDimensions-1].style.background = currentColor
+        gridCells[currentCell-1].style.background = currentColor
+        gridCells[currentCell-currentGridDimensions].style.background = currentColor
+        gridCells[currentCell-currentGridDimensions-1].style.background = currentColor
         
-        gridArray[currentCell-2].style.background = currentColor
-        gridArray[currentCell-currentGridDimensions-2].style.background = currentColor
+        gridCells[currentCell-2].style.background = currentColor
+        gridCells[currentCell-currentGridDimensions-2].style.background = currentColor
         
-        gridArray[currentCell-(currentGridDimensions*2)].style.background = currentColor
-        gridArray[currentCell-(currentGridDimensions*2)-1].style.background = currentColor
-        gridArray[currentCell-(currentGridDimensions*2)-2].style.background = currentColor
+        gridCells[currentCell-(currentGridDimensions*2)].style.background = currentColor
+        gridCells[currentCell-(currentGridDimensions*2)-1].style.background = currentColor
+        gridCells[currentCell-(currentGridDimensions*2)-2].style.background = currentColor
     }
 }
 }
 
-function startDrawing() {
+function startDrawing(cell, gridSizeUserInput, gridCells) {
     // This function sets the isDrawing variable to true
     // and calls the respective drawing function according
     // to the slider value
@@ -153,25 +202,25 @@ function startDrawing() {
     // If so, only the isDrawing variable is set to true,
     // without calling a drawing function,
     // so as not to color the grid itself
-    if(this.dataset.nocolor == 'nocolor') { 
+    if(cell.dataset.nocolor == 'nocolor') { 
         isDrawing=true 
     } else {
-        if(pixelSizeSlider.value==1) {drawPixelValueOne(this); isDrawing=true}
-        if (pixelSizeSlider.value==2) {drawPixelValueTwo(this); isDrawing=true}
-        if (pixelSizeSlider.value==3) {drawPixelValueThree(this); isDrawing=true}
+        if(pixelSizeSlider.value==1) {drawPixelValueOne(cell); isDrawing=true}
+        if (pixelSizeSlider.value==2) {drawPixelValueTwo(cell,gridSizeUserInput,gridCells); isDrawing=true}
+        if (pixelSizeSlider.value==3) {drawPixelValueThree(cell,gridSizeUserInput,gridCells); isDrawing=true}
     }
 }
 
-function continueDrawing() { 
+function continueDrawing(cell, gridSizeUserInput,gridCells) { 
     // This function allows the drawing functions
     // to run if the isDrawing variable is set to true
     // Essentially, letting the user hold the
     // mouse button down to draw, instead of having to
     // click every cell individually
     if (isDrawing) {
-        if(pixelSizeSlider.value==1) {drawPixelValueOne(this)}
-        if (pixelSizeSlider.value==2) {drawPixelValueTwo(this)}
-        if (pixelSizeSlider.value==3) {drawPixelValueThree(this)}
+        if(pixelSizeSlider.value==1) {drawPixelValueOne(cell)}
+        if (pixelSizeSlider.value==2) {drawPixelValueTwo(cell,gridSizeUserInput,gridCells)}
+        if (pixelSizeSlider.value==3) {drawPixelValueThree(cell,gridSizeUserInput,gridCells)}
     }
 }
 
@@ -182,13 +231,15 @@ function stopDrawing() {
     isDrawing = false
 }
 
-function installCellAttributes() {
+function installCellAttributes(gridSizeUserInput, gridCells) {
     // This function adds data-attributes to the left & top edge grid cells,
-    // adds data-attributes to the grid cells one row from the left & top edge, AND
+    // adds data-attributes to the grid cells one row from the left edge & top edge, AND
     // adds a data-attribute to the grid cells at the top-left corner & diagonally
     // bottom right from the top-left corner
     // This allows the drawing functions to check if the user clicked or hovered over
     // these specified cells to prevent 'color leakage' onto right edge grid cells
+    // ADDED: checks if grid size is bigger than one cell before running -> removes error message
+    if (gridCells.length>1) {
     for (let i = 0; i < parseInt(gridSizeUserInput)+2; i++) {
         if (i==0) {gridCells[i].dataset.topleftcorner='true';gridCells[i].dataset.topleftside='true'}
         if (i==parseInt(gridSizeUserInput)+1||i==1||i==parseInt(gridSizeUserInput)) {gridCells[i].dataset.topleftside='true'}
@@ -204,35 +255,34 @@ function installCellAttributes() {
     }
     for (let i=parseInt(gridSizeUserInput);i<parseInt(gridSizeUserInput)*2;i++) {
         gridCells[i].dataset.topside = 'true'
-    }
+    }}
 }
 
-function installGridEventListeners() { 
+function installGridEventListeners(gridSizeUserInput,gridCells) { 
     // This function adds event listeners for clicks/hovers on the grid itself,
     // so the user won't have to accurately click on a grid cell
     // to call the drawing functions
     grid.addEventListener('click', ()=>{isDrawnOn=true})
-    grid.addEventListener('mousedown', startDrawing)
+    grid.addEventListener('mousedown', ()=>{startDrawing(grid,gridSizeUserInput,gridCells)})
     grid.addEventListener('mouseleave', stopDrawing)
     grid.addEventListener('mouseup', stopDrawing)
 }
 
-function installAttributesAndListeners() { 
+function installAttributesAndListeners(gridSizeUserInput, gridCells) { 
     // This function adds event listeners for each cell in the grid
     // to call drawing functions upon event
     // This function also stores the installGridEventListeners function AND
     // the installCellAttributes function
-    gridCells = document.getElementsByTagName('li')
     for (let cell of gridCells) {
-        cell.addEventListener('mousedown', startDrawing)
-        cell.addEventListener('mouseover', continueDrawing)
+        cell.addEventListener('mousedown', ()=>{startDrawing(cell,gridSizeUserInput,gridCells)})
+        cell.addEventListener('mouseover', ()=>{continueDrawing(cell,gridSizeUserInput,gridCells)})
         cell.addEventListener('mouseup', stopDrawing)
     }
-    installGridEventListeners()
-    installCellAttributes()
+    installGridEventListeners(gridSizeUserInput,gridCells)
+    installCellAttributes(gridSizeUserInput, gridCells)
 }
 
-function toggleQuestionDisplay() {
+function toggleQuestionDisplay() { //REFACTOR LET THIS TAKE IN TEXT/WHAT TO SAY
     // This function toggles the 'Are You Sure?' question page
     // and automatically focuses on the 'No' answer
     body.classList.toggle('hide')
@@ -240,29 +290,29 @@ function toggleQuestionDisplay() {
     noAnswerButton.focus()
 }
 
-function createGridSize() {
+function createGridSize(gridSizeUserInput) { //REFACTORED TO LET IT TAKE IN ARG AND PASS ARG TO NESTED FUNCTIONS
     // This function brings up the question display if grid
     // is drawn on, clears grid of current color, and creates a grid if 
-    // a valid number is inputted 
-    gridSizeUserInput = gridSizeDefiner.value
+    // a valid number is inputted
     let validGridDimensions = gridSizeUserInput > 0 && gridSizeUserInput <=55
     if (validGridDimensions && isDrawnOn) {
-        question.innerText = 'Current Grid is about to be replaced'
+        question.innerText = 'Current Grid is about to be replaced' //IMPURE
         toggleQuestionDisplay()
-    } else {
-        if (validGridDimensions) {
-        currentGridDimensions = gridSizeDefiner.value
-        if (grid.innerHTML != '') {grid.innerText=''} //clears current grid
-        let gridCell = document.createElement('li')
+    } else if (validGridDimensions) {
+        grid.innerText='' //clears grid
         let i=0
+        let gridCell = document.createElement('li')
         grid.style.gridTemplateColumns = `repeat(${gridSizeUserInput},auto)`
         while (i < Math.pow(gridSizeUserInput, 2)) {
+            gridCell.style.background = 'rgb(255,255,255)'
+            gridCell.dataset.cell = 'true' //added to specify cell li's from other li's
             grid.appendChild(gridCell.cloneNode())
             i++
         }
-        installAttributesAndListeners()
+        let gridCells = Array.from(document.querySelectorAll('[data-cell]'))
+        installAttributesAndListeners(gridSizeUserInput, gridCells)
         isDrawnOn=false
-    }}
+    }
     isGrid=true
 }
 
@@ -302,11 +352,10 @@ clearGridButton.addEventListener('click', ()=>{
     }
 })
 
-// Event Listeners to not let user escape question display
-// and change Grid to empty upon Yes answer
-yesAnswerButton.addEventListener('click',()=>{
+// Event Listeners to not let user escape question display and change Grid to empty upon Yes answer
+yesAnswerButton.addEventListener('click',()=>{//REFACTORED ADD ARGUMENT
         isDrawnOn=false
-        createGridSize()
+        createGridSize(gridSizeDefiner.value) //CHECK LOAD FUNCTION RUNS WITH CORRECT VALUE
         toggleQuestionDisplay()
 })
 yesAnswerButton.addEventListener('keydown',(e)=>{
@@ -324,9 +373,11 @@ noAnswerButton.addEventListener('keydown', (e)=>{
 })
 
 // Event Listeners for 'Click' and 'Enter' key to submit grid size on non-empty & valid input
-submitButton.addEventListener('click', createGridSize)
-gridSizeDefiner.addEventListener('keypress', (e)=>{
-    if (e.key == 'Enter') createGridSize();
+submitButton.addEventListener('click', ()=> {//REFACTORED ADD ARGUMENT
+    createGridSize(gridSizeDefiner.value)
+})
+gridSizeDefiner.addEventListener('keyup', (e)=>{//REFACTORED ADD ARGUMENT
+    if (e.key == 'Enter') createGridSize(gridSizeDefiner.value);
 })
 
 // Adds event Listeners to create single click and double click functionality for color selectors
