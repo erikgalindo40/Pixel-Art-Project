@@ -30,19 +30,44 @@ let currentColor = '#18AFA5'
 let isDrawing = false
 let isDrawnOn = false
 let isGrid = false
-// let currentGridDimensions = 0
-// let gridSizeUserInput = 0
-// let gridCells = []
 
 //on dev
 
+localStorage.getItem(`artPieceOne`) 
+? document.getElementById('saveFileNameOne').innerText = JSON.parse(localStorage.getItem(`artPieceOne`)).artworkName
+: document.getElementById(`saveFileNameOne`). innerText = 'File 1'
+
+localStorage.getItem(`artPieceTwo`) 
+? document.getElementById('saveFileNameTwo').innerText = JSON.parse(localStorage.getItem(`artPieceTwo`)).artworkName
+: document.getElementById(`saveFileNameTwo`). innerText = 'File 2'
+
+localStorage.getItem(`artPieceThree`) 
+? document.getElementById('saveFileNameThree').innerText = JSON.parse(localStorage.getItem(`artPieceThree`)).artworkName
+: document.getElementById(`saveFileNameThree`). innerText = 'File 3'
+
+const saveFiles = document.querySelectorAll('.save-file')
+const saveFilesHeader = document.getElementById('saveFilesHeader')
+const saveFilesContainer = document.getElementById('saveFilesContainer')
+
+//save file buttons
+const saveButtons = document.querySelectorAll('#saveButton')
+const loadArtButtons = document.querySelectorAll('#loadArtButton')
+//rename file variables
+const fileToRenameInputs = document.querySelectorAll('#fileRename')
+const renameFileButtons = document.querySelectorAll('#renameFileButton')
+
+//FUNCTIONS
 function saveArt(identifier) {
     let artID = identifier.dataset.artid
     let artPieceColors = []
     let gridCells = document.querySelectorAll('[data-cell]')
     gridCells.forEach(cell=>artPieceColors.push(cell.style.background))
+
+    let selectedFile = document.getElementById(`saveFileName${artID}`)
+
     const artPieceObject = {
         gridSize: gridSizeDefiner.value,
+        artworkName: selectedFile.innerText,
         colors: artPieceColors,
     }
     localStorage.setItem(`artPiece${artID}`, JSON.stringify(artPieceObject))
@@ -64,30 +89,35 @@ function loadArt(identifier) {
     }
 }
 
-const saveFiles = document.querySelectorAll('.save-file')
-const saveFilesHeader = document.getElementById('saveFilesHeader')
-const saveFilesContainer = document.getElementById('saveFilesContainer')
-
-//save file buttons
-const saveButtons = document.querySelectorAll('#saveButton')
-const loadArtButtons = document.querySelectorAll('#loadArtButton')
-//rename file variables
-const fileToRenameInputs = document.querySelectorAll('#fileRename')
-const renameFileButtons = document.querySelectorAll('#renameFileButton')
-
 function renameSaveFile(identifier, input) {
     let fileToRename = document.getElementById(`saveFileName${identifier}`)
     fileToRename.innerText = input.value
-    toggleSaveFileRenameInput(input.dataset.renameid)
+    saveArtName(identifier)
+    toggleSaveFileRenameInputDisplay(input.dataset.renameid)
 }
 
-function toggleSaveFileRenameInput(identifier) {
+function saveArtName(artID) {
+    let selectedFile = document.getElementById(`saveFileName${artID}`)
+    let newSaveFileName = selectedFile.innerText
+    
+    let selectedFilePreviousInfo = JSON.parse(localStorage.getItem(`artPiece${artID}`))
+    const { gridSize, colors } = selectedFilePreviousInfo
+    let newFileInfo = {
+        gridSize,
+        artworkName: newSaveFileName,
+        colors
+    }
+    localStorage.setItem(`artPiece${artID}`, JSON.stringify(newFileInfo))
+}
+
+function toggleSaveFileRenameInputDisplay(identifier) {
     //rename identifier not zero-indexed, so subtract 1
     let selectedFile = parseInt(identifier-1)
     fileToRenameInputs[selectedFile].classList.toggle('show-save-file-rename')
     fileToRenameInputs[selectedFile].focus()
 }
 
+//EVENT LISTENERS
 fileToRenameInputs.forEach(input=>
     input.addEventListener('keypress',
     (e)=>{
@@ -96,18 +126,19 @@ fileToRenameInputs.forEach(input=>
         }
     }))
 
-renameFileButtons.forEach(
-    renameFileButton=>renameFileButton.addEventListener('click', 
-    ()=>toggleSaveFileRenameInput(renameFileButton.dataset.renameid)))
+renameFileButtons.forEach(renameFileButton=>
+    renameFileButton.addEventListener('click', 
+    ()=>toggleSaveFileRenameInputDisplay(renameFileButton.dataset.renameid))
+)
 
 
-    
-for(let saveButton of saveButtons) {
-    saveButton.addEventListener('click', ()=>saveArt(saveButton))
-}
-for(let loadButton of loadArtButtons) {
-    loadButton.addEventListener('click', ()=>loadArt(loadButton))
-}
+saveButtons.forEach(saveButton => 
+    saveButton.addEventListener('click', ()=>{saveArt(saveButton)})
+)
+
+loadArtButtons.forEach(loadButton=>
+    loadButton.addEventListener('click', ()=>{loadArt(loadButton)})
+)
 
 
 saveFilesHeader.addEventListener('click', ()=> {
