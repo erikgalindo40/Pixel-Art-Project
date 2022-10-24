@@ -79,8 +79,8 @@ function loadArt(identifier) {
     //DANGEROUS
     let artID = identifier.dataset.artid
     let artToLoad = JSON.parse(localStorage.getItem(`artPiece${artID}`))
-    gridSizeDefiner.value = artToLoad.gridSize
-    createGridSize(artToLoad.gridSize)
+    gridSizeDefiner.value = artToLoad.gridSize || 0
+    createGridSize(gridSizeDefiner.value)
     let gridCells = document.querySelectorAll('[data-cell]')
     let i = 0
     for(let cell of gridCells) {
@@ -101,12 +101,8 @@ function saveArtName(artID) {
     let newSaveFileName = selectedFile.innerText
     
     let selectedFilePreviousInfo = JSON.parse(localStorage.getItem(`artPiece${artID}`))
-    const { gridSize, colors } = selectedFilePreviousInfo
-    let newFileInfo = {
-        gridSize,
-        artworkName: newSaveFileName,
-        colors
-    }
+    let newFileInfo = { ...selectedFilePreviousInfo, artworkName: newSaveFileName}
+
     localStorage.setItem(`artPiece${artID}`, JSON.stringify(newFileInfo))
 }
 

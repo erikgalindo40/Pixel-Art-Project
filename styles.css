@@ -434,6 +434,11 @@ html {
   display: none;
 }
 
+.save-file-name-container {
+  width: 42ch;
+  word-break: break-all;
+}
+
 .save-file-rename {
   position: absolute;
   left: 14%;
