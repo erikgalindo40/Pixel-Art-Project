@@ -52,9 +52,14 @@ const saveFilesContainer = document.getElementById('saveFilesContainer')
 //save file buttons
 const saveButtons = document.querySelectorAll('#saveButton')
 const loadArtButtons = document.querySelectorAll('#loadArtButton')
+const yesAnswerSaveFileButton = document.getElementById('yesAnswerSaveFileButton')
+const noAnswerSaveFileButton = document.getElementById('noAnswerSaveFileButton')
 //rename file variables
 const fileToRenameInputs = document.querySelectorAll('#fileRename')
 const renameFileButtons = document.querySelectorAll('#renameFileButton')
+const saveFileQuestionName = document.getElementById('saveFileQuestionName')
+//saved files question variables
+const savedFilesQuestionDisplay = document.getElementById("savedFilesQuestionDisplay")
 
 //FUNCTIONS
 function saveArt(identifier) {
@@ -120,7 +125,8 @@ fileToRenameInputs.forEach(input=>
         if(e.key=='Enter') {
             renameSaveFile(input.dataset.artid, input)   
         }
-    }))
+    })
+)
 
 renameFileButtons.forEach(renameFileButton=>
     renameFileButton.addEventListener('click', 
@@ -129,12 +135,38 @@ renameFileButtons.forEach(renameFileButton=>
 
 
 saveButtons.forEach(saveButton => 
-    saveButton.addEventListener('click', ()=>{saveArt(saveButton)})
+    saveButton.addEventListener('click', ()=>{
+        // saveArt(saveButton) WORKING ON NOW
+        let artID = saveButton.dataset.artid
+        yesAnswerSaveFileButton.dataset.artid = saveButton.dataset.artid
+
+        saveFileQuestionName.innerText = 
+        JSON.parse(localStorage.getItem(`artPiece${artID}`)) 
+        ? JSON.parse(localStorage.getItem(`artPiece${artID}`)).artworkName
+        : `File ${artID}` 
+
+        saveFilesContainer.classList.toggle('dim-background')
+        savedFilesQuestionDisplay.classList.toggle('show-saved-files-question-container')
+    })
 )
+
+yesAnswerSaveFileButton.addEventListener('click', ()=> {
+    saveArt(yesAnswerSaveFileButton)
+
+    saveFilesContainer.classList.toggle('dim-background')
+    savedFilesQuestionDisplay.classList.toggle('show-saved-files-question-container')
+}
+)
+
+noAnswerSaveFileButton.addEventListener('click', ()=>{
+    saveFilesContainer.classList.toggle('dim-background')
+    savedFilesQuestionDisplay.classList.toggle('show-saved-files-question-container')
+})
 
 loadArtButtons.forEach(loadButton=>
     loadButton.addEventListener('click', ()=>{loadArt(loadButton)})
 )
+
 
 
 saveFilesHeader.addEventListener('click', ()=> {

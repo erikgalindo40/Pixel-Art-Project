@@ -390,6 +390,20 @@ html {
   left: 1em;
 }
 
+.dim-background.save-files-wrapper::before {
+  position: absolute;
+  display: block;
+  content: '';
+
+  width: 120vw;
+  height: 120vh;
+
+  top: -10em;left: -5em;
+  background-color: rgba(0, 0, 0, 0.637);
+
+  z-index: 1;
+}
+
 .save-file-header {
   cursor: pointer;
   width: fit-content;
@@ -398,17 +412,6 @@ html {
 
 .save-file-header:hover {
   border-bottom: 2px solid black;
-}
-
-.dim-background.save-files-wrapper::before {
-  position: absolute;
-  display: block;
-  content: '';
-  background-color: rgba(0, 0, 0, 0.498);
-  width: 150vw;
-  height: 150vh;
-  top: -10em;left: -10em;
-  z-index: 100;
 }
 
 .save-files-list {
@@ -449,4 +452,40 @@ html {
 
 .save-file-rename.show-save-file-rename {
   display: block;
+}
+
+/* saved files question styles */
+.saved-files-question-container {
+  position: absolute;
+  background-color: white;
+
+  padding-inline: .8em;
+  padding-block: .5em;
+  width: 10em;
+  text-align: center;
+  border: 1px solid blue;
+
+  top: 2em;
+  left: 20em;
+
+  z-index: 2;
+
+  display: none;
+}
+
+.saved-files-question-container.show-saved-files-question-container {
+  display: block;
+}
+
+.saved-files-question-buttons-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.save-file-question-button {
+  border: 2px solid rgb(0, 0, 0);
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5em;
+  padding-inline: 2em;
 }
