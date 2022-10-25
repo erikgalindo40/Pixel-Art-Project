@@ -12,7 +12,7 @@
   <body id="body" class="body">
     <div class="instructions-wrapper">
       <div class="instructions-menu">
-        <div tabindex="0" id="instructionTitle" class="instructions-menu-title">Instructions</div>
+        <div tabindex="0" id="instructionTitle" class="instructions-menu-title">HOW TO USE</div>
         <ul id="instructionList" class="instructions-menu-ul hide-list">
           <div tabindex="0" id="createButtonInstruction" class="instructions-menu-item hide-item">|| How Create Square Grid works</div>
           <div tabindex="0" id="colorInstruction" class="instructions-menu-item hide-item">|| How the color palette works</div>
@@ -26,15 +26,15 @@
       <div id="savedFilesQuestionDisplay" class="saved-files-question-container">
         <p>Save work to <span id="saveFileQuestionName">File 1</span>?</p>
         <div class="saved-files-question-buttons-container">
-          <button id="yesAnswerSaveFileButton" class="question-button save-file-question-button">Yes</button>
-          <button id="noAnswerSaveFileButton" class="question-button save-file-question-button">No</button>
+          <button id="yesAnswerSaveFileButton" class="question-button save-file-question-button yes-answer-button">Yes</button>
+          <button id="noAnswerSaveFileButton" class="question-button save-file-question-button no-answer-button">No</button>
         </div>
       </div>
       <div id="loadFileQuestionDisplay" class="load-file-question-container">
         <p>Load <span id="loadFileQuestionName">File 1</span>?</p>
         <div class="load-file-question-buttons-container">
-          <button id="yesAnswerLoadFileButton" class="question-button load-file-question-button">Yes</button>
-          <button id="noAnswerLoadFileButton" class="question-button load-file-question-button">No</button>
+          <button id="yesAnswerLoadFileButton" class="question-button load-file-question-button yes-answer-button">Yes</button>
+          <button id="noAnswerLoadFileButton" class="question-button load-file-question-button no-answer-button">No</button>
         </div>
       </div>
       <div class="save-file-header" id="saveFilesHeader">SAVED FILES</div>
@@ -42,34 +42,34 @@
         <li data-nocolor="nocolor" class="save-file hide-save-file" id="saveFileOne">
           <div class="save-file-name-container">
             <input data-renameid="1" data-artid="One" id="fileRename" class="save-file-rename" type="text">
-            <button data-artid="One" id="saveButton">Save To</button>
+            <button data-artid="One" class="save-file-function-button" id="saveButton">Save To</button>
             <span class="save-file-name" id="saveFileNameOne">File 1</span>
           </div>
           <div>
-            <button data-artid="One" id="loadArtButton">Load Art</button>
-            <button data-renameid="1" id="renameFileButton">Rename File</button>
+            <button data-artid="One" class="save-file-function-button" id="loadArtButton">Load Art</button>
+            <button data-renameid="1" class="save-file-function-button" id="renameFileButton">Rename File</button>
           </div>
         </li>
         <li data-nocolor="nocolor" class="save-file hide-save-file" id="saveFileTwo">
           <div class="save-file-name-container">
             <input data-renameid="2" data-artid="Two" id="fileRename" class="save-file-rename" type="text">
-            <button data-artid="Two" id="saveButton">Save To</button>
+            <button data-artid="Two" class="save-file-function-button" id="saveButton">Save To</button>
             <span class="save-file-name" id="saveFileNameTwo">File 2</span>
           </div>
           <div>
-            <button data-artid="Two" id="loadArtButton">Load Art</button>
-            <button data-renameid="2" id="renameFileButton">Rename File</button>
+            <button data-artid="Two" class="save-file-function-button" id="loadArtButton">Load Art</button>
+            <button data-renameid="2" class="save-file-function-button" id="renameFileButton">Rename File</button>
           </div>
         </li>
         <li data-nocolor="nocolor" class="save-file hide-save-file" id="saveFileThree">
           <div class="save-file-name-container">
             <input data-renameid="3" data-artid="Three" id="fileRename" class="save-file-rename" type="text">
-            <button data-artid="Three" id="saveButton">Save To</button>
+            <button data-artid="Three" class="save-file-function-button" id=" saveButton">Save To</button>
             <span class="save-file-name" id="saveFileNameThree">File 3</span>
           </div>
           <div>
-            <button data-artid="Three" id="loadArtButton">Load Art</button>
-            <button data-renameid="3" id="renameFileButton">Rename File</button>
+            <button data-artid="Three" class="save-file-function-button" id="loadArtButton">Load Art</button>
+            <button data-renameid="3" class="save-file-function-button" id="renameFileButton">Rename File</button>
           </div>
         </li>
       </ul>
@@ -80,8 +80,8 @@
       <p id="question">Current grid is about to be replaced</p>
       <strong>Are you sure?</strong>
       <div class="question-buttons-container">
-        <button id="yesAnswerButton" class="question-button">Yes</button>
-        <button id="noAnswerButton" class="question-button">No</button>
+        <button id="yesAnswerButton" class="question-button yes-answer-button">Yes</button>
+        <button id="noAnswerButton" class="question-button no-answer-button">No</button>
       </div>
     </div>
     <div class="grid-container">

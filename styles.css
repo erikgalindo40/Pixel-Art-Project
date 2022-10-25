@@ -1,5 +1,7 @@
 html {
-  background-color: rgb(63, 63, 63);
+  height: 100vh;
+  background: rgb(0,0,0);
+  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgb(97, 97, 97) 100%);
 }
 
 .body {
@@ -8,6 +10,26 @@ html {
   place-items: center;
   overflow: hidden;
 }
+
+/* BUTTON STYLES */
+.no-answer-button:hover, .no-answer-button:focus {
+  background-color: rgba(224, 11, 11, 0.404);
+  border: 2px solid rgb(90, 9, 9);
+}
+.yes-answer-button:hover, .yes-answer-button:focus {
+  background-color: rgba(11, 224, 46, 0.397);
+  border: 2px solid rgb(9, 90, 40);
+}
+
+.save-file-function-button {
+  background-color: white;
+}
+
+.save-file-function-button:hover, .save-file-function-button:focus {
+  background-color: rgba(0, 0, 0, 0.856);
+  color: white;
+  cursor: pointer;
+} 
 
 /* GRID STYLES */
 .grid-container {
@@ -76,7 +98,7 @@ html {
 }
 
 .create-grid-button:hover, .create-grid-button:focus {
-  background: grey;
+  background: rgba(0, 0, 0, 0.548);
   color: white;
   border: 1px solid white;
 }
@@ -93,7 +115,7 @@ html {
 }
 
 .clear-grid-button:hover, .clear-grid-button:focus {
-  background: grey;
+  background: rgba(0, 0, 0, 0.548);
   color: white;
   border: 1px solid white;
 }
@@ -115,6 +137,7 @@ html {
 }
 
 .slider-value {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: larger;
   box-sizing: border-box;
   border: 1px solid white;
@@ -135,7 +158,7 @@ html {
   padding: .5em;
 
   background-color: white;
-  border: 2px solid rgb(7, 30, 141);
+  border: 2px solid black;
 
   display: flex;
   flex-direction: column;
@@ -163,13 +186,14 @@ html {
 .question-button {
   border: 2px solid rgb(0, 0, 0);
   font-size: medium;
+  font-weight: bold;
   padding: 0.5em;
   padding-inline: 2em;
+  transition: transform 222ms;
 }
 
 .question-button:hover, .question-button:focus {
-  background-color: rgb(108, 172, 228);
-  border: 2px solid rgb(7, 30, 141);
+  transform: translatey(-7%);
 }
 
 .hide.body::before {
@@ -214,7 +238,7 @@ html {
   content: "";
   width: 75%;
   height: 3px;
-  background-color: black;
+  background-color: rgba(255, 255, 255, 0.856);
   display: inline-block;
   position: absolute;
   top: 23%;
@@ -251,24 +275,24 @@ html {
   z-index: 5;
   top: 0;
   left: 1em;
-  border: 1px solid blue;
+  border: 1px solid black;
   padding: .5em;
-  background-color: rgba(224, 220, 220, 0.923);
+  background-color: white;
   color: black;
 }
 
 .instructions-menu-title {
+  font-weight: bold;
   user-select: none;
-  padding: .1em;
-  margin-bottom: 1em;
   text-align: center;
   border: 2px solid rgba(255, 255, 255, 0);
   border-bottom: 2px solid black;
+  padding: 0.1em;
+  cursor: pointer;
 }
 
 .instructions-menu-title:hover {
-  border: 2px solid black ;
-  background-color: rgba(0, 0, 0, 0.164);
+  border: 2px solid black;
 }
 
 .instructions-menu-ul {
@@ -278,13 +302,17 @@ html {
 
 .instructions-menu-item {
   user-select: none;
-  margin-block: 2em;
-  border: 1px solid rgba(255, 255, 255, 0);
+  margin-top: 2em;
+  border: 2px solid rgba(255, 255, 255, 0);
+  width: fit-content;
+}
+
+.instructions-menu-item:nth-child(1) {
+  margin-top: .8em;
 }
 
 .instructions-menu-item:hover, .instructions-menu-item:focus {
-  border: 1px solid blue;
-  background-color: rgba(67, 67, 223, 0.419);
+  border-bottom: 2px solid black;
 }
 
 .instructions-menu-ul.hide-list {
@@ -382,7 +410,7 @@ html {
   font-weight: bold;
   background-color: white;
   padding: .5em;
-  border: 1px solid blue;
+  border: 1px solid black;
 
   position: absolute;
   z-index: 1;
@@ -407,11 +435,13 @@ html {
 .save-file-header {
   cursor: pointer;
   width: fit-content;
-  border-bottom: 2px solid white;
+  border: 2px solid white;
+  border-bottom: 2px solid black;
+  padding: 0.1em;
 }
 
 .save-file-header:hover {
-  border-bottom: 2px solid black;
+  border: 2px solid black;
 }
 
 .save-files-list {
