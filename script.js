@@ -54,12 +54,16 @@ const saveButtons = document.querySelectorAll('#saveButton')
 const loadArtButtons = document.querySelectorAll('#loadArtButton')
 const yesAnswerSaveFileButton = document.getElementById('yesAnswerSaveFileButton')
 const noAnswerSaveFileButton = document.getElementById('noAnswerSaveFileButton')
+const yesAnswerLoadFileButton = document.getElementById('yesAnswerLoadFileButton')
+const noAnswerLoadFileButton = document.getElementById('noAnswerLoadFileButton')
 //rename file variables
 const fileToRenameInputs = document.querySelectorAll('#fileRename')
 const renameFileButtons = document.querySelectorAll('#renameFileButton')
 const saveFileQuestionName = document.getElementById('saveFileQuestionName')
+const loadFileQuestionName = document.getElementById('loadFileQuestionName')
 //saved files question variables
 const savedFilesQuestionDisplay = document.getElementById("savedFilesQuestionDisplay")
+const loadFileQuestionDisplay = document.getElementById("loadFileQuestionDisplay")
 
 //FUNCTIONS
 function saveArt(identifier) {
@@ -136,9 +140,8 @@ renameFileButtons.forEach(renameFileButton=>
 
 saveButtons.forEach(saveButton => 
     saveButton.addEventListener('click', ()=>{
-        // saveArt(saveButton) WORKING ON NOW
         let artID = saveButton.dataset.artid
-        yesAnswerSaveFileButton.dataset.artid = saveButton.dataset.artid
+        yesAnswerSaveFileButton.dataset.artid = artID
 
         saveFileQuestionName.innerText = 
         JSON.parse(localStorage.getItem(`artPiece${artID}`)) 
@@ -164,8 +167,31 @@ noAnswerSaveFileButton.addEventListener('click', ()=>{
 })
 
 loadArtButtons.forEach(loadButton=>
-    loadButton.addEventListener('click', ()=>{loadArt(loadButton)})
+    loadButton.addEventListener('click', ()=>{
+        let artID = loadButton.dataset.artid
+        yesAnswerLoadFileButton.dataset.artid = artID
+
+        loadFileQuestionName.innerText = 
+        JSON.parse(localStorage.getItem(`artPiece${artID}`)) //if there's a saved project
+        ? JSON.parse(localStorage.getItem(`artPiece${artID}`)).artworkName //display its name
+        : `File ${artID}` //or its file number if there is no saved work
+
+        saveFilesContainer.classList.toggle('dim-background')
+        loadFileQuestionDisplay.classList.toggle('show-load-file-question-container')
+    })
 )
+
+yesAnswerLoadFileButton.addEventListener('click', ()=>{
+    loadArt(yesAnswerLoadFileButton)
+
+    saveFilesContainer.classList.toggle('dim-background')
+    loadFileQuestionDisplay.classList.toggle('show-load-file-question-container')
+})
+
+noAnswerLoadFileButton.addEventListener('click', ()=>{
+    saveFilesContainer.classList.toggle('dim-background')
+    loadFileQuestionDisplay.classList.toggle('show-load-file-question-container')
+})
 
 
 

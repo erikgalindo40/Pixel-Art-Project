@@ -489,3 +489,39 @@ html {
   padding: 0.5em;
   padding-inline: 2em;
 }
+
+/* saved files question styles */
+.load-file-question-container {
+  position: absolute;
+  background-color: white;
+
+  padding-inline: .8em;
+  padding-block: .5em;
+  width: 10em;
+  text-align: center;
+  border: 1px solid blue;
+
+  top: 2em;
+  left: 20em;
+
+  z-index: 2;
+
+  display: none;
+}
+
+.load-file-question-container.show-load-file-question-container {
+  display: block;
+}
+
+.load-file-question-buttons-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.load-file-question-button {
+  border: 2px solid rgb(0, 0, 0);
+  font-size: small;
+  font-weight: bold;
+  padding: 0.5em;
+  padding-inline: 2em;
+}
