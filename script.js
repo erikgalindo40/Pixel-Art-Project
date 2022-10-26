@@ -475,9 +475,11 @@ gridSizeDefiner.addEventListener('keyup', (e)=>{//REFACTORED ADD ARGUMENT
 palette.forEach(paletteColor=>paletteColor.addEventListener('input', ()=>{
     changePaletteColor(paletteColor)
 }))
-palette.forEach(paletteColor=>paletteColor.addEventListener('dblclick', ()=>{
+palette.forEach(paletteColor=>paletteColor.addEventListener('contextmenu', (e)=>{
+    e.preventDefault()
     changePaletteColor(paletteColor)
-}))
+    return false
+}, false))
 
 // Event Listeners to access/leave instruction menu AND prevent leaving instruction menu through shift-tabbing out
 instructionTitle.addEventListener('click', ()=>{
