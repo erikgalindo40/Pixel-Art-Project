@@ -33,6 +33,9 @@ let isGrid = false
 
 //on dev
 
+//TO DO 
+// ADD COMMENTS --- CHANGE PALETTE COLORS ON BOOT TO BEACH COLORS --- STRUCTURE FUNCTION TO FIT IN REST OF CODE BASE
+
 localStorage.getItem(`artPieceOne`) 
 ? document.getElementById('saveFileNameOne').innerText = JSON.parse(localStorage.getItem(`artPieceOne`)).artworkName
 : document.getElementById(`saveFileNameOne`). innerText = 'File 1'
@@ -134,7 +137,10 @@ fileToRenameInputs.forEach(input=>
 
 renameFileButtons.forEach(renameFileButton=>
     renameFileButton.addEventListener('click', 
-    ()=>toggleSaveFileRenameInputDisplay(renameFileButton.dataset.renameid))
+    ()=>{
+        document.querySelectorAll('#fileRename').forEach(renameInput=>renameInput.placeholder="Press 'Enter' To Submit")
+        toggleSaveFileRenameInputDisplay(renameFileButton.dataset.renameid)
+    })
 )
 
 
