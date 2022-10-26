@@ -26,32 +26,10 @@ const colorInstructionDisplay = document.getElementById('colorInstructionDisplay
 const sliderInstructionDisplay = document.getElementById('sliderInstructionDisplay')
 const sliderInfo = document.getElementById('sliderInfo')
 const colorSelectors = document.getElementById('colorSelectors')
-let currentColor = '#18AFA5'
-let isDrawing = false
-let isDrawnOn = false
-let isGrid = false
-
-//on dev
-
-//TO DO 
-// ADD COMMENTS --- CHANGE PALETTE COLORS ON BOOT TO BEACH COLORS --- STRUCTURE FUNCTION TO FIT IN REST OF CODE BASE
-
-localStorage.getItem(`artPieceOne`) 
-? document.getElementById('saveFileNameOne').innerText = JSON.parse(localStorage.getItem(`artPieceOne`)).artworkName
-: document.getElementById(`saveFileNameOne`). innerText = 'File 1'
-
-localStorage.getItem(`artPieceTwo`) 
-? document.getElementById('saveFileNameTwo').innerText = JSON.parse(localStorage.getItem(`artPieceTwo`)).artworkName
-: document.getElementById(`saveFileNameTwo`). innerText = 'File 2'
-
-localStorage.getItem(`artPieceThree`) 
-? document.getElementById('saveFileNameThree').innerText = JSON.parse(localStorage.getItem(`artPieceThree`)).artworkName
-: document.getElementById(`saveFileNameThree`). innerText = 'File 3'
-
+//saved file variables
 const saveFiles = document.querySelectorAll('.save-file')
 const saveFilesHeader = document.getElementById('saveFilesHeader')
 const saveFilesContainer = document.getElementById('saveFilesContainer')
-
 //save file buttons
 const saveButtons = document.querySelectorAll('#saveButton')
 const loadArtButtons = document.querySelectorAll('#loadArtButton')
@@ -67,148 +45,29 @@ const loadFileQuestionName = document.getElementById('loadFileQuestionName')
 //saved files question variables
 const savedFilesQuestionDisplay = document.getElementById("savedFilesQuestionDisplay")
 const loadFileQuestionDisplay = document.getElementById("loadFileQuestionDisplay")
+let currentColor = '#18AFA5'
+let isDrawing = false
+let isDrawnOn = false
+let isGrid = false
+
+//TO DO 
+// CHANGE PALETTE COLORS ON BOOT TO BEACH COLORS
+
+localStorage.getItem(`artPieceOne`) //sets file name 1 to saved file name if there is a saved file 1
+? document.getElementById('saveFileNameOne').innerText = JSON.parse(localStorage.getItem(`artPieceOne`)).artworkName
+: document.getElementById(`saveFileNameOne`). innerText = 'File 1'
+
+localStorage.getItem(`artPieceTwo`) //sets file name 2 to saved file name if there is a saved file 2
+? document.getElementById('saveFileNameTwo').innerText = JSON.parse(localStorage.getItem(`artPieceTwo`)).artworkName
+: document.getElementById(`saveFileNameTwo`). innerText = 'File 2'
+
+localStorage.getItem(`artPieceThree`) //sets file name 3 to saved file name if there is a saved file 3
+? document.getElementById('saveFileNameThree').innerText = JSON.parse(localStorage.getItem(`artPieceThree`)).artworkName
+: document.getElementById(`saveFileNameThree`). innerText = 'File 3'
 
 //FUNCTIONS
-function saveArt(identifier) {
-    let artID = identifier.dataset.artid
-    let artPieceColors = []
-    let gridCells = document.querySelectorAll('[data-cell]')
-    gridCells.forEach(cell=>artPieceColors.push(cell.style.background))
 
-    let selectedFile = document.getElementById(`saveFileName${artID}`)
-
-    const artPieceObject = {
-        gridSize: gridSizeDefiner.value,
-        artworkName: selectedFile.innerText,
-        colors: artPieceColors,
-    }
-    localStorage.setItem(`artPiece${artID}`, JSON.stringify(artPieceObject))
-}
-
-function loadArt(identifier) {
-    //DANGEROUS
-    isDrawnOn=false
-    //DANGEROUS
-    let artID = identifier.dataset.artid
-    let artToLoad = JSON.parse(localStorage.getItem(`artPiece${artID}`))
-    gridSizeDefiner.value = artToLoad.gridSize || 0
-    createGridSize(gridSizeDefiner.value)
-    let gridCells = document.querySelectorAll('[data-cell]')
-    let i = 0
-    for(let cell of gridCells) {
-        cell.style.background = artToLoad.colors[i]
-        i++
-    }
-}
-
-function renameSaveFile(identifier, input) {
-    let fileToRename = document.getElementById(`saveFileName${identifier}`)
-    fileToRename.innerText = input.value
-    saveArtName(identifier)
-    toggleSaveFileRenameInputDisplay(input.dataset.renameid)
-}
-
-function saveArtName(artID) {
-    let selectedFile = document.getElementById(`saveFileName${artID}`)
-    let newSaveFileName = selectedFile.innerText
-    
-    let selectedFilePreviousInfo = JSON.parse(localStorage.getItem(`artPiece${artID}`))
-    let newFileInfo = { ...selectedFilePreviousInfo, artworkName: newSaveFileName}
-
-    localStorage.setItem(`artPiece${artID}`, JSON.stringify(newFileInfo))
-}
-
-function toggleSaveFileRenameInputDisplay(identifier) {
-    //rename identifier not zero-indexed, so subtract 1
-    let selectedFile = parseInt(identifier-1)
-    fileToRenameInputs[selectedFile].classList.toggle('show-save-file-rename')
-    fileToRenameInputs[selectedFile].focus()
-}
-
-//EVENT LISTENERS
-fileToRenameInputs.forEach(input=>
-    input.addEventListener('keypress',
-    (e)=>{
-        if(e.key=='Enter') {
-            renameSaveFile(input.dataset.artid, input)   
-        }
-    })
-)
-
-renameFileButtons.forEach(renameFileButton=>
-    renameFileButton.addEventListener('click', 
-    ()=>{
-        document.querySelectorAll('#fileRename').forEach(renameInput=>renameInput.placeholder="Press 'Enter' To Submit")
-        toggleSaveFileRenameInputDisplay(renameFileButton.dataset.renameid)
-    })
-)
-
-
-saveButtons.forEach(saveButton => 
-    saveButton.addEventListener('click', ()=>{
-        let artID = saveButton.dataset.artid
-        yesAnswerSaveFileButton.dataset.artid = artID
-
-        saveFileQuestionName.innerText = 
-        JSON.parse(localStorage.getItem(`artPiece${artID}`)) 
-        ? JSON.parse(localStorage.getItem(`artPiece${artID}`)).artworkName
-        : `File ${artID}` 
-
-        saveFilesContainer.classList.toggle('dim-background')
-        savedFilesQuestionDisplay.classList.toggle('show-saved-files-question-container')
-    })
-)
-
-yesAnswerSaveFileButton.addEventListener('click', ()=> {
-    saveArt(yesAnswerSaveFileButton)
-
-    saveFilesContainer.classList.toggle('dim-background')
-    savedFilesQuestionDisplay.classList.toggle('show-saved-files-question-container')
-}
-)
-
-noAnswerSaveFileButton.addEventListener('click', ()=>{
-    saveFilesContainer.classList.toggle('dim-background')
-    savedFilesQuestionDisplay.classList.toggle('show-saved-files-question-container')
-})
-
-loadArtButtons.forEach(loadButton=>
-    loadButton.addEventListener('click', ()=>{
-        let artID = loadButton.dataset.artid
-        yesAnswerLoadFileButton.dataset.artid = artID
-
-        loadFileQuestionName.innerText = 
-        JSON.parse(localStorage.getItem(`artPiece${artID}`)) //if there's a saved project
-        ? JSON.parse(localStorage.getItem(`artPiece${artID}`)).artworkName //display its name
-        : `File ${artID}` //or its file number if there is no saved work
-
-        saveFilesContainer.classList.toggle('dim-background')
-        loadFileQuestionDisplay.classList.toggle('show-load-file-question-container')
-    })
-)
-
-yesAnswerLoadFileButton.addEventListener('click', ()=>{
-    loadArt(yesAnswerLoadFileButton)
-
-    saveFilesContainer.classList.toggle('dim-background')
-    loadFileQuestionDisplay.classList.toggle('show-load-file-question-container')
-})
-
-noAnswerLoadFileButton.addEventListener('click', ()=>{
-    saveFilesContainer.classList.toggle('dim-background')
-    loadFileQuestionDisplay.classList.toggle('show-load-file-question-container')
-})
-
-
-
-saveFilesHeader.addEventListener('click', ()=> {
-    for (let file of saveFiles) {
-        file.classList.toggle('hide-save-file')
-    }
-})
-
-//IN DEV
-
+//drawing functions
 function drawPixelValueOne(cell) {
     // This function will change the background color 
     // of the selected grid cell
@@ -322,6 +181,7 @@ function stopDrawing() {
     isDrawing = false
 }
 
+//grid cell functions
 function installCellAttributes(gridSizeUserInput, gridCells) {
     // This function adds data-attributes to the left & top edge grid cells,
     // adds data-attributes to the grid cells one row from the left edge & top edge, AND
@@ -373,7 +233,8 @@ function installAttributesAndListeners(gridSizeUserInput, gridCells) {
     installCellAttributes(gridSizeUserInput, gridCells)
 }
 
-function toggleQuestionDisplay() { //REFACTOR LET THIS TAKE IN TEXT/WHAT TO SAY
+//question display and grid creation functions
+function toggleQuestionDisplay() {
     // This function toggles the 'Are You Sure?' question page
     // and automatically focuses on the 'No' answer
     body.classList.toggle('hide')
@@ -381,13 +242,13 @@ function toggleQuestionDisplay() { //REFACTOR LET THIS TAKE IN TEXT/WHAT TO SAY
     noAnswerButton.focus()
 }
 
-function createGridSize(gridSizeUserInput) { //REFACTORED TO LET IT TAKE IN ARG AND PASS ARG TO NESTED FUNCTIONS
+function createGridSize(gridSizeUserInput) {
     // This function brings up the question display if grid
     // is drawn on, clears grid of current color, and creates a grid if 
     // a valid number is inputted
     let validGridDimensions = gridSizeUserInput > 0 && gridSizeUserInput <=55
     if (validGridDimensions && isDrawnOn) {
-        question.innerText = 'Current Grid is about to be replaced' //IMPURE
+        question.innerText = 'Current Grid is about to be replaced'
         toggleQuestionDisplay()
     } else if (validGridDimensions) {
         grid.innerText='' //clears grid
@@ -407,6 +268,7 @@ function createGridSize(gridSizeUserInput) { //REFACTORED TO LET IT TAKE IN ARG 
     isGrid=true
 }
 
+//instruction display functions
 function toggleInstructionDisplay(instructionDisplay, ...args) {
     // This function toggles the display of a specific instruction menu
     // passed as an agrument,
@@ -420,6 +282,7 @@ function toggleInstructionDisplay(instructionDisplay, ...args) {
     }
 }
 
+//color palette functions
 function changePaletteColor(paletteBox) {
     // This function changes the color being currently used
     // to the selected color 
@@ -428,6 +291,91 @@ function changePaletteColor(paletteBox) {
     mainColor.value = paletteBox.value
     currentColor = paletteBox.value
 }
+
+//saved files functions
+function saveArt(identifier) {
+    //This function takes in an element with a data attribute that we use to identify which file to save the current art to.
+    //This function then creates an object which stores the current grid's size, the selected file's name, and an array that stores the 
+    // background color for each grid cell
+    //That new object is then set as the value for the selected save file
+    let artID = identifier.dataset.artid
+    let artPieceColors = []
+    let gridCells = document.querySelectorAll('[data-cell]')
+    gridCells.forEach(cell=>artPieceColors.push(cell.style.background))
+
+    let selectedFile = document.getElementById(`saveFileName${artID}`)
+
+    const artPieceObject = {
+        gridSize: gridSizeDefiner.value,
+        artworkName: selectedFile.innerText,
+        colors: artPieceColors,
+    }
+    localStorage.setItem(`artPiece${artID}`, JSON.stringify(artPieceObject))
+}
+
+function loadArt(identifier) {
+    //This function loads in the selected file by grabbing the object value
+    //from local storage that matches the art's ID
+    //The art ID is grabbed from the element passed in as an argument
+    //The stringified object that is returned gets parsed,
+    // the stored gridSize value is used to call createGridSize with said value,
+    // then the cells from that grid are looped through and given the background color
+    // corresponding to its index value
+    //isDrawnOn gets set to false to prevent two question displays from popping up at same time 
+    isDrawnOn=false
+
+    let artID = identifier.dataset.artid
+    let artToLoad = JSON.parse(localStorage.getItem(`artPiece${artID}`))
+    gridSizeDefiner.value = artToLoad.gridSize || 0 //prevents undefined value from showing in grid size user input if no saved file
+    createGridSize(gridSizeDefiner.value)
+    let gridCells = document.querySelectorAll('[data-cell]')
+    let i = 0
+    for(let cell of gridCells) {
+        cell.style.background = artToLoad.colors[i]
+        i++
+    }
+}
+
+function renameSaveFile(identifier, input) {
+    //This Function takes in an element which has a data-attribute that has the selected file's ID
+    // and it also takes in the new file name to add
+    //The current file name is grabbed by element ID and is set to the input value(new file name)
+    //The saveArtName function is then called to save the artwork's new name to local storage
+    //The rename input display is then toggled off to show the new file's Name
+    let fileToRename = document.getElementById(`saveFileName${identifier}`)
+    fileToRename.innerText = input.value
+    saveArtName(identifier)
+    toggleSaveFileRenameInputDisplay(input.dataset.renameid)
+}
+
+function saveArtName(artID) {
+    //This function takes in the artID as argument
+    //The file matching the ID is grabbed,
+    // the object returned from the selected file gets parsed,
+    // the old object properties get spread into a new object with spread syntax,
+    // the New File Name gets passed into the new object as the new value for the artworkName Key,
+    // then that newly created object gets set as the selected File's new value
+    let selectedFile = document.getElementById(`saveFileName${artID}`)
+    let newSaveFileName = selectedFile.innerText
+    
+    let selectedFilePreviousInfo = JSON.parse(localStorage.getItem(`artPiece${artID}`))
+    let newFileInfo = { ...selectedFilePreviousInfo, artworkName: newSaveFileName}
+
+    localStorage.setItem(`artPiece${artID}`, JSON.stringify(newFileInfo))
+}
+
+function toggleSaveFileRenameInputDisplay(identifier) {
+    //This function takes in an element with a data-attribute
+    // that specifies which file-rename-input to display
+    //The selected rename-input is then set to be focused
+
+    let selectedFile = parseInt(identifier-1) //rename identifier not zero-indexed, so subtract 1
+    fileToRenameInputs[selectedFile].classList.toggle('show-save-file-rename')
+    fileToRenameInputs[selectedFile].focus()
+}
+
+
+// EVENT LISTENERS //
 
 pixelSizeSlider.addEventListener('input' ,()=> {
     // Changes value of display next to slider to show what
@@ -551,6 +499,87 @@ sliderInstructionButton.addEventListener('keydown',(e)=>{
     }
 })
 
+// rename file button and input event listeners
+fileToRenameInputs.forEach(input=>
+    input.addEventListener('keypress',
+    (e)=>{
+        if(e.key=='Enter') {
+            renameSaveFile(input.dataset.artid, input)   
+        }
+    })
+)
+
+renameFileButtons.forEach(renameFileButton=>
+    renameFileButton.addEventListener('click', 
+    ()=>{
+        document.querySelectorAll('#fileRename').forEach(renameInput=>renameInput.placeholder="Press 'Enter' To Submit")
+        toggleSaveFileRenameInputDisplay(renameFileButton.dataset.renameid)
+    })
+)
+
+// save buttons event listeners
+saveButtons.forEach(saveButton => 
+    saveButton.addEventListener('click', ()=>{
+        let artID = saveButton.dataset.artid
+        yesAnswerSaveFileButton.dataset.artid = artID
+
+        saveFileQuestionName.innerText = 
+        JSON.parse(localStorage.getItem(`artPiece${artID}`)) 
+        ? JSON.parse(localStorage.getItem(`artPiece${artID}`)).artworkName
+        : `File ${artID}` 
+
+        saveFilesContainer.classList.toggle('dim-background')
+        savedFilesQuestionDisplay.classList.toggle('show-saved-files-question-container')
+    })
+)
+
+yesAnswerSaveFileButton.addEventListener('click', ()=> {
+    saveArt(yesAnswerSaveFileButton)
+
+    saveFilesContainer.classList.toggle('dim-background')
+    savedFilesQuestionDisplay.classList.toggle('show-saved-files-question-container')
+}
+)
+
+noAnswerSaveFileButton.addEventListener('click', ()=>{
+    saveFilesContainer.classList.toggle('dim-background')
+    savedFilesQuestionDisplay.classList.toggle('show-saved-files-question-container')
+})
+
+// load buttons event listeners
+loadArtButtons.forEach(loadButton=>
+    loadButton.addEventListener('click', ()=>{
+        let artID = loadButton.dataset.artid
+        yesAnswerLoadFileButton.dataset.artid = artID
+
+        loadFileQuestionName.innerText = 
+        JSON.parse(localStorage.getItem(`artPiece${artID}`)) //if there's a saved project
+        ? JSON.parse(localStorage.getItem(`artPiece${artID}`)).artworkName //display its name
+        : `File ${artID}` //or its file number if there is no saved work
+
+        saveFilesContainer.classList.toggle('dim-background')
+        loadFileQuestionDisplay.classList.toggle('show-load-file-question-container')
+    })
+)
+
+yesAnswerLoadFileButton.addEventListener('click', ()=>{
+    loadArt(yesAnswerLoadFileButton)
+
+    saveFilesContainer.classList.toggle('dim-background')
+    loadFileQuestionDisplay.classList.toggle('show-load-file-question-container')
+})
+
+noAnswerLoadFileButton.addEventListener('click', ()=>{
+    saveFilesContainer.classList.toggle('dim-background')
+    loadFileQuestionDisplay.classList.toggle('show-load-file-question-container')
+})
+
+// saved files container event listener
+saveFilesHeader.addEventListener('click', ()=> {
+    for (let file of saveFiles) {
+        file.classList.toggle('hide-save-file')
+    }
+})
 // Event Listener for Window to prevent Page Refresh after any User Input
 // window.onbeforeunload = function(e) {
 //     e.returnValue = `huh`
