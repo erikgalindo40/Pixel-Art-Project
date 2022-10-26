@@ -68,6 +68,7 @@ html {
 
   -moz-user-select: none;
   -webkit-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   cursor: default;
 }
@@ -221,12 +222,14 @@ html {
   position: absolute;
   display: flex;
   flex-direction: column;
-  right: -4.5em;
+  right: -5em;
+  aspect-ratio: 1/1;
   top: 20%;
 }
 
 .color-selectors input {
   margin-bottom: 1em;
+  border: 1px solid black;
 }
 
 .color-queue {
@@ -283,7 +286,12 @@ html {
 
 .instructions-menu-title {
   font-weight: bold;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
   user-select: none;
+
   text-align: center;
   border: 2px solid rgba(255, 255, 255, 0);
   border-bottom: 2px solid black;
@@ -301,7 +309,11 @@ html {
 }
 
 .instructions-menu-item {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
   user-select: none;
+
   margin-top: 2em;
   border: 2px solid rgba(255, 255, 255, 0);
   width: fit-content;
@@ -335,6 +347,9 @@ html {
   color: white;
 
   user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .color-hide {
@@ -363,6 +378,9 @@ html {
   color: white;
   
   user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .slider-hide {
@@ -387,6 +405,10 @@ html {
   z-index: 100;
   bottom: 2em;
   left: 0;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 
@@ -405,6 +427,9 @@ html {
 /* save files  */
 .save-files-wrapper {
   user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 
   font-size: large;
   font-weight: bold;
