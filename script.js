@@ -45,7 +45,7 @@ const loadFileQuestionName = document.getElementById('loadFileQuestionName')
 //saved files question variables
 const savedFilesQuestionDisplay = document.getElementById("savedFilesQuestionDisplay")
 const loadFileQuestionDisplay = document.getElementById("loadFileQuestionDisplay")
-let currentColor = '#18AFA5'
+let currentColor = '#52E0BD'
 let isDrawing = false
 let isDrawnOn = false
 let isGrid = false
@@ -580,7 +580,3 @@ saveFilesHeader.addEventListener('click', ()=> {
         file.classList.toggle('hide-save-file')
     }
 })
-// Event Listener for Window to prevent Page Refresh after any User Input
-// window.onbeforeunload = function(e) {
-//     e.returnValue = `huh`
-// }
