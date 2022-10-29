@@ -110,6 +110,22 @@ html {
   border-left: 1px solid black;
 }
 
+.create-grid-input.show-error {
+  outline: none;
+  border: 2px solid red;
+  border-radius: 5px;
+}
+
+.create-grid-input.show-error {
+  animation: shake .65s;
+}
+
+@keyframes shake {
+  0%, 100% {transform: translateX(0);} 
+   10%, 30%, 50%, 70%, 90% {transform: translateX(-5%);} 
+   20%, 40%, 60%, 80% {transform: translateX(5%);}
+}
+
 .clear-grid-button {
   margin-left: 1em;
   max-width: auto;
@@ -508,6 +524,29 @@ html {
 
 .save-file-rename.show-save-file-rename {
   display: block;
+}
+
+.save-file.save-success {
+  border: 2px solid rgb(15, 175, 15);
+  background-color: rgba(23, 218, 23, 0.397);
+}
+
+.save-success-text {
+  font-size: large;
+  font-weight: bold;
+  border-bottom: 2px solid rgb(14, 184, 14);
+  margin-right: 2.6em;
+
+  display: none;
+}
+
+.save-success-text.show-success-confirmation {
+  display: block;
+}
+
+.save-file-header-container {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* saved files question styles */

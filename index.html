@@ -36,7 +36,10 @@
           <button id="noAnswerLoadFileButton" class="question-button load-file-question-button no-answer-button">No</button>
         </div>
       </div>
-      <div class="save-file-header" id="saveFilesHeader">SAVED FILES</div>
+      <div class="save-file-header-container">
+        <div class="save-file-header" id="saveFilesHeader">SAVED FILES </div>
+        <div class="save-success-text" id="saveSuccessText">Save Successful!</div>
+      </div>
       <ul class="save-files-list">
         <li data-nocolor="nocolor" class="save-file hide-save-file" id="saveFileOne">
           <div class="save-file-name-container">
@@ -128,7 +131,7 @@
         </p>
       </div>
       <input class="input-buttons create-grid-button" id="submitButton" type="submit" value="Create Square Grid">
-      <input class="input-buttons create-grid-input" type="text" id="gridSizeDefiner">
+      <input class="input-buttons create-grid-input" type="text" id="gridSizeDefiner" maxlength="2">
       <input class="input-buttons clear-grid-button" id="clearGridButton" type="submit" value="Erase Grid">
       <div id="sliderInstructionDisplay" class="pixel-size-instructions slider-hide">
         <p><b><u>What does this slider do?</u></b>
