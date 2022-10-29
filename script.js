@@ -51,6 +51,11 @@ let isDrawnOn = false
 let isGrid = false
 
 //TO DO 
+
+//dev
+
+//dev
+
 // CHANGE PALETTE COLORS ON BOOT TO BEACH COLORS
 
 localStorage.getItem(`artPieceOne`) //sets file name 1 to saved file name if there is a saved file 1
