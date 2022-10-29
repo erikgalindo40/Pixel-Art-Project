@@ -52,10 +52,6 @@ let isGrid = false
 
 //TO DO 
 
-//dev
-
-//dev
-
 // CHANGE PALETTE COLORS ON BOOT TO BEACH COLORS
 
 localStorage.getItem(`artPieceOne`) //sets file name 1 to saved file name if there is a saved file 1
@@ -445,10 +441,28 @@ noAnswerButton.addEventListener('keydown', (e)=>{
 
 // Event Listeners for 'Click' and 'Enter' key to submit grid size on non-empty & valid input
 submitButton.addEventListener('click', ()=> {//REFACTORED ADD ARGUMENT
+    //checks if grid size input is > 55 to display error styling
+    if (gridSizeDefiner.value>55) {
+        gridSizeDefiner.focus()
+        gridSizeDefiner.classList.add('show-error')
+        setTimeout(()=>{
+            gridSizeDefiner.classList.remove('show-error')
+        },2000)
+    }
     createGridSize(gridSizeDefiner.value)
 })
 gridSizeDefiner.addEventListener('keyup', (e)=>{//REFACTORED ADD ARGUMENT
     if (e.key == 'Enter') createGridSize(gridSizeDefiner.value);
+})
+gridSizeDefiner.addEventListener('keyup', (e)=>{
+    //checks if grid size input is > 55 to display error styling
+    if (e.key == 'Enter' & gridSizeDefiner.value>55) {
+        gridSizeDefiner.focus()
+        gridSizeDefiner.classList.add('show-error')
+        setTimeout(()=>{
+            gridSizeDefiner.classList.remove('show-error')
+        },2000)
+    };
 })
 
 // Adds event Listeners to create single click and double click functionality for color selectors
