@@ -298,17 +298,44 @@ function changePaletteColor(paletteBox) {
 }
 
 //saved files functions
+function removeSaveConfirmation(selectedFile) {
+    //This function takes in the selected file's element and
+    // removes save success confirmation styling after 3 seconds
+    // so styling doesn't stay after closing saved files display 
+    setTimeout(()=>{
+        selectedFile.classList.remove('save-success')
+        let saveSuccessText = document.getElementById('saveSuccessText')
+        saveSuccessText.classList.remove('show-success-confirmation')
+    },3000)
+}
+
+function showSaveConfirmation(selectedFile) {
+    //This function takes in a selected File Element
+    // and adds the save success class to said element,
+    // along with displaying 'Save Success' text, 
+    // to let the user know their work is saved
+    selectedFile.classList.add('save-success')
+    let saveSuccessText = document.getElementById('saveSuccessText')
+    saveSuccessText.classList.add('show-success-confirmation')
+}
+
 function saveArt(identifier) {
     //This function takes in an element with a data attribute that we use to identify which file to save the current art to.
     //This function then creates an object which stores the current grid's size, the selected file's name, and an array that stores the 
     // background color for each grid cell
     //That new object is then set as the value for the selected save file
+    //ADDED: Now grabs the selected file element and passes said element to showSaveConfirmation
+    // & removeSaveConfirmation functions
     let artID = identifier.dataset.artid
     let artPieceColors = []
     let gridCells = document.querySelectorAll('[data-cell]')
     gridCells.forEach(cell=>artPieceColors.push(cell.style.background))
 
     let selectedFile = document.getElementById(`saveFileName${artID}`)
+    let selectedFileElement = document.getElementById(`saveFile${artID}`)
+
+    showSaveConfirmation(selectedFileElement)
+    removeSaveConfirmation(selectedFileElement)
 
     const artPieceObject = {
         gridSize: gridSizeDefiner.value,

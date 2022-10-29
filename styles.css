@@ -510,6 +510,29 @@ html {
   display: block;
 }
 
+.save-file.save-success {
+  border: 2px solid rgb(15, 175, 15);
+  background-color: rgba(23, 218, 23, 0.397);
+}
+
+.save-success-text {
+  font-size: large;
+  font-weight: bold;
+  border-bottom: 2px solid rgb(14, 184, 14);
+  margin-right: 2.6em;
+
+  display: none;
+}
+
+.save-success-text.show-success-confirmation {
+  display: block;
+}
+
+.save-file-header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 /* saved files question styles */
 .saved-files-question-container {
   position: absolute;
