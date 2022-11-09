@@ -620,3 +620,68 @@ html {
   padding: 0.5em;
   padding-inline: 2em;
 }
+
+/* Instruction menu exit button styles */
+.instruction-menu-exit-button {
+  position: absolute;
+  top: 0;left: 17.5em;
+  background-color: white;
+  padding: 1em;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.instruction-menu-exit-button.hide-instruction-menu-exit-button {
+  display: none;
+}
+
+.instruction-menu-exit-button::before, .instruction-menu-exit-button::after {
+  content: '';
+  background: #000;
+  padding: .15em;
+  padding-inline: .35em;
+  width: 1em;
+  position: absolute;
+  top: .8em;
+  left: .2em;
+}
+
+.instruction-menu-exit-button::before {
+  rotate: -45deg;
+}
+
+.instruction-menu-exit-button::after {
+  rotate: 45deg;
+}
+
+/* save file menu exit button styles */ 
+  .save-file-menu-exit-button {
+    position: absolute;
+    top: .5em;
+    right: .5em;
+    background-color: white;
+    padding: 1em;
+    cursor: pointer;
+  }
+
+  .save-file-menu-exit-button.hide-save-file-menu-exit-button {
+    display: none;
+  }
+
+  .save-file-menu-exit-button::before, .save-file-menu-exit-button::after {
+    content: '';
+  background: #000;
+  padding: .15em;
+  padding-inline: .35em;
+  width: 1em;
+  position: absolute;
+  top: .8em;
+  left: .2em;
+  }
+  .save-file-menu-exit-button::before {
+    rotate: -45deg;
+  }
+  
+  .save-file-menu-exit-button::after {
+    rotate: 45deg;
+  }

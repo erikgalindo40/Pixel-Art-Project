@@ -53,6 +53,20 @@ let isGrid = false
 //TO DO 
 
 //HOT FIX INSTANTIATION
+const instructionMenuExitButton = document.getElementById('instructionMenuExitButton')
+instructionMenuExitButton.addEventListener('click', ()=>{
+    instructionList.classList.toggle('hide-list')
+    body.classList.toggle('hide-instruction')
+    instructionMenuExitButton.classList.toggle('hide-instruction-menu-exit-button')
+})
+
+const saveFileMenuExitButton = document.getElementById('saveFileMenuExitButton')
+saveFileMenuExitButton.addEventListener('click',()=>{
+    for (let file of saveFiles) {
+        file.classList.toggle('hide-save-file')
+    }
+    saveFileMenuExitButton.classList.toggle('hide-save-file-menu-exit-button')
+})
 
 // CHANGE PALETTE COLORS ON BOOT TO BEACH COLORS
 
@@ -481,11 +495,13 @@ palette.forEach(paletteColor=>paletteColor.addEventListener('contextmenu', (e)=>
 instructionTitle.addEventListener('click', ()=>{
     instructionList.classList.toggle('hide-list')
     body.classList.toggle('hide-instruction')
+    instructionMenuExitButton.classList.toggle('hide-instruction-menu-exit-button')
 })
 instructionTitle.addEventListener('keypress', (e)=>{
     if (e.key == 'Enter') {
         instructionList.classList.toggle('hide-list')
         body.classList.toggle('hide-instruction')
+        instructionMenuExitButton.classList.toggle('hide-instruction-menu-exit-button')
     }
 })
 instructionTitle.addEventListener('keydown',(e)=>{
@@ -627,4 +643,5 @@ saveFilesHeader.addEventListener('click', ()=> {
     for (let file of saveFiles) {
         file.classList.toggle('hide-save-file')
     }
+    saveFileMenuExitButton.classList.toggle('hide-save-file-menu-exit-button')
 })
